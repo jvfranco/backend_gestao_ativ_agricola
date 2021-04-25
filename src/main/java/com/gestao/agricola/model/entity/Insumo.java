@@ -1,0 +1,58 @@
+package com.gestao.agricola.model.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@Table(name = "insumo")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
+public class Insumo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String identificacao;
+
+    @OneToMany
+    private List<IngredienteAtivo> ingredientesAtivos;
+
+    @Column(nullable = false)
+    private String aplicacao;
+
+    @Column(nullable = false)
+    private String formulacao;
+
+    @Column(nullable = false, name = "classe_agronomica")
+    private String classeAgronomica;
+
+    @Column(nullable = false, name = "modo_de_acao")
+    private String modoDeAcao;
+
+    @Column
+    private String embalagem;
+
+    @Column(nullable = false)
+    private BigDecimal quantidade;
+
+    @Column(nullable = false, name = "unidade_de_medida")
+    private String unidadeDeMedida;
+
+    @Column(name = "data_cadastro")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataCadastro;
+
+    @Column(name = "data_atualizacao")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataAtualizacao;
+}
