@@ -1,4 +1,4 @@
-package com.gestao.agricola.model.entity;
+package com.gestao.agricola.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "atividade_agricola")
@@ -18,8 +19,7 @@ import java.util.List;
 public class AtividadeAgricola {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @Column(nullable = false, length = 255, name = "descricao_atividade")
     private String descricaoAtividade;

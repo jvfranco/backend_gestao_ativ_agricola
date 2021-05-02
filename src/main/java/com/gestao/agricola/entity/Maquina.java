@@ -1,27 +1,41 @@
-package com.gestao.agricola.model.entity;
+package com.gestao.agricola.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
-@Table(name = "ingrediente_ativo")
+@Table(name = "maquina")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
 @ToString
-public class IngredienteAtivo {
+public class Maquina {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @Column(nullable = false, length = 50)
-    private String nome;
+    private String modelo;
+
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca marca;
+
+    @Column(nullable = false)
+    private String horimetro;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Combustivel combustivel;
+
+    @Column(nullable = false)
+    private int potencia;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")

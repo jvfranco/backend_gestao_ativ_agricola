@@ -1,4 +1,4 @@
-package com.gestao.agricola.model.entity;
+package com.gestao.agricola.entity;
 
 public enum Perfil {
 

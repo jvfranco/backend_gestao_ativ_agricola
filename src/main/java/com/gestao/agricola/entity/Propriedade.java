@@ -1,13 +1,17 @@
-package com.gestao.agricola.model.entity;
+package com.gestao.agricola.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "propriedade")
@@ -17,25 +21,26 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 @ToString
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Propriedade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @Column(nullable = false, length = 150)
     @NotEmpty
     private String nome;
 
-    @Column(nullable = false)
-    @JoinColumn(name = "id_pessoa")
-    private Pessoa proprietario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario proprietario;
 
     @Column(nullable = false)
     private BigDecimal area;
 
-    @OneToMany
-    private List<Coordenada> coordenadas;
+    @Type(type = "jsonb")
+    @Column(nullable = false, columnDefinition = "jsonb")
+    private String coordenadas;
 
     @OneToMany(mappedBy = "propriedade")
     private List<Talhao> talhoes;

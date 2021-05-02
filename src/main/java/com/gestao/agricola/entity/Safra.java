@@ -1,10 +1,14 @@
-package com.gestao.agricola.model.entity;
+package com.gestao.agricola.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "safra")
@@ -17,8 +21,7 @@ import java.time.LocalDate;
 public class Safra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @Column(nullable = false, length = 30)
     private String identificacao;
