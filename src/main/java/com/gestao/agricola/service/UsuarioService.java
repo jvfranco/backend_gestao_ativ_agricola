@@ -47,11 +47,12 @@ public class UsuarioService {
                 });
     }
 
-    public Optional<Usuario> delete(UUID id) {
-        return this.usuarioRepository.findById(id)
+    public boolean delete(UUID id) {
+        this.usuarioRepository.findById(id)
                 .map(usuario -> {
-                    this.usuarioRepository.deleteById(usuario.getId());
-                    return usuario;
+                    this.usuarioRepository.delete(usuario);
+                    return true;
                 });
+        return false;
     }
 }

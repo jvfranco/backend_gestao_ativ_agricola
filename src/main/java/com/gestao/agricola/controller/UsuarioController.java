@@ -52,7 +52,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarUsuario(@PathVariable UUID id, @RequestBody @Valid UsuarioForm usuarioForm) {
-        Usuario usuarioAtualizado = this.usuarioService.update(id, usuarioForm)
+        this.usuarioService.update(id, usuarioForm)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
         return ResponseEntity.noContent().build();
@@ -60,10 +60,9 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirUsuario(@PathVariable UUID id) {
-        this.usuarioService.delete(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-
-        return ResponseEntity.noContent().build();
+        return this.usuarioService.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 
 }

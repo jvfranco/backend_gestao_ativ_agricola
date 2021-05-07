@@ -1,25 +1,37 @@
 package com.gestao.agricola.controller;
 
+import com.gestao.agricola.entity.Propriedade;
 import com.gestao.agricola.entity.dto.PropriedadeDTO;
+import com.gestao.agricola.entity.form.PropriedadeForm;
+import com.gestao.agricola.repository.TalhaoRepository;
+import com.gestao.agricola.repository.UsuarioRepository;
 import com.gestao.agricola.service.PropriedadeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/propriedade")
 public class PropriedadesController {
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TalhaoRepository talhaoRepository;
+
+    @Autowired
     private PropriedadeService propriedadeService;
 
     @GetMapping("/todos")
@@ -37,5 +49,26 @@ public class PropriedadesController {
         return ResponseEntity.ok().body(propriedadeDTO);
     }
 
-    //TODO terminar métodos CRUD
+    @PostMapping
+    public ResponseEntity<PropriedadeDTO> salvarNovaPropriedade(@RequestBody @Valid PropriedadeForm propriedadeForm, UriComponentsBuilder uriBuilder) {
+        Propriedade propriedade = PropriedadeForm.converter(propriedadeForm, this.usuarioRepository, this.talhaoRepository);
+        URI uri = this.propriedadeService.save(propriedade, uriBuilder);
+        return ResponseEntity.created(uri).body(new PropriedadeDTO(propriedade));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarPropriedade(@PathVariable UUID id, @RequestBody PropriedadeForm propriedadeForm) {
+        this.propriedadeService.update(id, propriedadeForm, usuarioRepository, talhaoRepository)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluirPropriedade(@PathVariable UUID id) {
+        return this.propriedadeService.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
+
 }

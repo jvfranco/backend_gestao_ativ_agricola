@@ -1,26 +1,21 @@
 package com.gestao.agricola.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "propriedade")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode
-@ToString
+@Entity @Table(name = "propriedade")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
+@EqualsAndHashCode @ToString
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Propriedade {
 
@@ -28,7 +23,6 @@ public class Propriedade {
     private UUID id;
 
     @Column(nullable = false, length = 150)
-    @NotEmpty
     private String nome;
 
     @ManyToOne
