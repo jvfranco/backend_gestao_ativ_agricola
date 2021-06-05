@@ -1,6 +1,5 @@
 package com.gestao.agricola.service;
 
-import com.gestao.agricola.model.Perfil;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
 import com.gestao.agricola.model.form.UsuarioForm;
@@ -34,16 +33,11 @@ public class UsuarioService {
         return uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
     }
 
-    public Optional<Usuario> update(UUID id, UsuarioForm usuarioForm) {
+    public Optional<UsuarioDTO> update(UUID id, UsuarioForm usuarioForm) {
         return this.usuarioRepository.findById(id)
                 .map(usuario -> {
-                    usuario.setNome(usuarioForm.getNome());
-                    usuario.setCpf(usuarioForm.getCpf());
-                    usuario.setTelefone(usuarioForm.getTelefone());
-                    usuario.setEmail(usuarioForm.getEmail());
-                    usuario.setUsuario(usuarioForm.getUsuario());
-                    usuario.setPerfil(usuarioForm.getPerfil().equalsIgnoreCase("administrador") ? Perfil.ADMINISTRADOR : Perfil.USUARIO);
-                    return this.usuarioRepository.save(usuario);
+                    Usuario usuarioSalvo = this.usuarioRepository.save(Usuario.retornaUsuarioAposUpdate(usuarioForm, usuario));
+                    return new UsuarioDTO(usuarioSalvo);
                 });
     }
 

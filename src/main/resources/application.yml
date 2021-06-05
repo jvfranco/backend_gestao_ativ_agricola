@@ -11,3 +11,7 @@ spring:
       show-sql: true
       format_sql: true
       ddl-auto: update
+
+springdoc:
+  api-docs:
+    path: /api-docs

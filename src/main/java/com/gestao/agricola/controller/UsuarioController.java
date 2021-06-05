@@ -51,7 +51,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarUsuario(@PathVariable UUID id, @RequestBody @Valid UsuarioForm usuarioForm) {
+    public ResponseEntity<?> atualizarUsuario(@PathVariable UUID id, @RequestBody UsuarioForm usuarioForm) {
         this.usuarioService.update(id, usuarioForm)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
