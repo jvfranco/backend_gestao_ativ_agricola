@@ -1,6 +1,6 @@
 package com.gestao.agricola.repository;
 
-import com.gestao.agricola.entity.Usuario;
+import com.gestao.agricola.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

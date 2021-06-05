@@ -1,8 +1,8 @@
-package com.gestao.agricola.entity.form;
+package com.gestao.agricola.model.form;
 
-import com.gestao.agricola.entity.Propriedade;
-import com.gestao.agricola.entity.Talhao;
-import com.gestao.agricola.entity.Usuario;
+import com.gestao.agricola.model.Propriedade;
+import com.gestao.agricola.model.Talhao;
+import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.repository.TalhaoRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;

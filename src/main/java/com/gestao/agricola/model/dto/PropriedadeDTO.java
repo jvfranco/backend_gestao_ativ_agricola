@@ -1,6 +1,6 @@
-package com.gestao.agricola.entity.dto;
+package com.gestao.agricola.model.dto;
 
-import com.gestao.agricola.entity.Propriedade;
+import com.gestao.agricola.model.Propriedade;
 import lombok.Getter;
 
 @Getter

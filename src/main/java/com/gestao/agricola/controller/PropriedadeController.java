@@ -1,8 +1,8 @@
 package com.gestao.agricola.controller;
 
-import com.gestao.agricola.entity.Propriedade;
-import com.gestao.agricola.entity.dto.PropriedadeDTO;
-import com.gestao.agricola.entity.form.PropriedadeForm;
+import com.gestao.agricola.model.Propriedade;
+import com.gestao.agricola.model.dto.PropriedadeDTO;
+import com.gestao.agricola.model.form.PropriedadeForm;
 import com.gestao.agricola.repository.TalhaoRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import com.gestao.agricola.service.PropriedadeService;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/propriedade")
-public class PropriedadesController {
+public class PropriedadeController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;

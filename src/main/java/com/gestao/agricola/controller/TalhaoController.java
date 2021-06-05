@@ -1,8 +1,8 @@
 package com.gestao.agricola.controller;
 
-import com.gestao.agricola.entity.Talhao;
-import com.gestao.agricola.entity.dto.TalhaoDTO;
-import com.gestao.agricola.entity.form.TalhaoForm;
+import com.gestao.agricola.model.Talhao;
+import com.gestao.agricola.model.dto.TalhaoDTO;
+import com.gestao.agricola.model.form.TalhaoForm;
 import com.gestao.agricola.service.TalhaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

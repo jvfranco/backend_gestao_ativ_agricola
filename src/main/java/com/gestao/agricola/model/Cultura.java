@@ -1,4 +1,4 @@
-package com.gestao.agricola.entity;
+package com.gestao.agricola.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -8,34 +8,23 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "maquina")
+@Table(name = "cultura")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
 @ToString
-public class Maquina {
+public class Cultura {
 
     @Id
     private UUID id;
 
     @Column(nullable = false, length = 50)
-    private String modelo;
+    private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "id_marca")
-    private Marca marca;
-
-    @Column(nullable = false)
-    private String horimetro;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Combustivel combustivel;
-
-    @Column(nullable = false)
-    private int potencia;
+    @Column(nullable = false, length = 150)
+    private String nomeCientifico;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")

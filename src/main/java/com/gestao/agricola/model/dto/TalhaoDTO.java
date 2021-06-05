@@ -1,6 +1,6 @@
-package com.gestao.agricola.entity.dto;
+package com.gestao.agricola.model.dto;
 
-import com.gestao.agricola.entity.Talhao;
+import com.gestao.agricola.model.Talhao;
 import lombok.Getter;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
-package com.gestao.agricola.entity.form;
+package com.gestao.agricola.model.form;
 
-import com.gestao.agricola.entity.Perfil;
-import com.gestao.agricola.entity.Usuario;
+import com.gestao.agricola.model.Perfil;
+import com.gestao.agricola.model.Usuario;
 import lombok.Getter;
 import org.hibernate.validator.constraints.br.CPF;
 

@@ -1,4 +1,4 @@
-package com.gestao.agricola.entity;
+package com.gestao.agricola.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

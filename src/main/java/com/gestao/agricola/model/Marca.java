@@ -1,4 +1,4 @@
-package com.gestao.agricola.entity;
+package com.gestao.agricola.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -8,23 +8,20 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "cultura")
+@Table(name = "marca")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
 @ToString
-public class Cultura {
+public class Marca {
 
     @Id
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 30)
     private String nome;
-
-    @Column(nullable = false, length = 150)
-    private String nomeCientifico;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")

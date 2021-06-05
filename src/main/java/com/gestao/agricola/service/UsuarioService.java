@@ -1,9 +1,9 @@
 package com.gestao.agricola.service;
 
-import com.gestao.agricola.entity.Perfil;
-import com.gestao.agricola.entity.Usuario;
-import com.gestao.agricola.entity.dto.UsuarioDTO;
-import com.gestao.agricola.entity.form.UsuarioForm;
+import com.gestao.agricola.model.Perfil;
+import com.gestao.agricola.model.Usuario;
+import com.gestao.agricola.model.dto.UsuarioDTO;
+import com.gestao.agricola.model.form.UsuarioForm;
 import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

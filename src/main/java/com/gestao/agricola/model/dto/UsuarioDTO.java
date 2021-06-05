@@ -1,6 +1,6 @@
-package com.gestao.agricola.entity.dto;
+package com.gestao.agricola.model.dto;
 
-import com.gestao.agricola.entity.Usuario;
+import com.gestao.agricola.model.Usuario;
 import lombok.Getter;
 
 @Getter

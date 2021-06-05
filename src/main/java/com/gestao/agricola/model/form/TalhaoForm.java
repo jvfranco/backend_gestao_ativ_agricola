@@ -1,7 +1,7 @@
-package com.gestao.agricola.entity.form;
+package com.gestao.agricola.model.form;
 
-import com.gestao.agricola.entity.Talhao;
-import com.gestao.agricola.entity.TipoSolo;
+import com.gestao.agricola.model.Talhao;
+import com.gestao.agricola.model.TipoSolo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
