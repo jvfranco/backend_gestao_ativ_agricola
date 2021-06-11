@@ -1,5 +1,6 @@
 package com.gestao.agricola.service;
 
+import com.gestao.agricola.model.Perfil;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
 import com.gestao.agricola.model.form.UsuarioForm;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,7 +38,7 @@ public class UsuarioService {
     public Optional<UsuarioDTO> update(UUID id, UsuarioForm usuarioForm) {
         return this.usuarioRepository.findById(id)
                 .map(usuario -> {
-                    Usuario usuarioSalvo = this.usuarioRepository.save(Usuario.retornaUsuarioAposUpdate(usuarioForm, usuario));
+                    Usuario usuarioSalvo = this.usuarioRepository.save(this.retornaUsuarioAposUpdate(usuarioForm, usuario));
                     return new UsuarioDTO(usuarioSalvo);
                 });
     }
@@ -48,5 +50,40 @@ public class UsuarioService {
                     return true;
                 });
         return false;
+    }
+
+    private Usuario retornaUsuarioAposUpdate(UsuarioForm usuarioForm, Usuario usuario) {
+
+        if(!usuarioForm.getNome().isEmpty() && usuarioForm.getNome() != null) {
+            usuario.setNome(usuarioForm.getNome());
+        }
+
+        if(!usuarioForm.getCpf().isEmpty() && usuarioForm.getCpf() != null) {
+            usuario.setCpf(usuarioForm.getCpf());
+        }
+
+        if(!usuarioForm.getTelefone().isEmpty() && usuarioForm.getTelefone() != null) {
+            usuario.setTelefone(usuarioForm.getTelefone());
+        }
+
+        if(!usuarioForm.getEmail().isEmpty() && usuarioForm.getEmail() != null) {
+            usuario.setEmail(usuarioForm.getEmail());
+        }
+
+        if(!usuarioForm.getUsuario().isEmpty() && usuarioForm.getUsuario() != null) {
+            usuario.setUsuario(usuarioForm.getUsuario());
+        }
+
+        if(!usuarioForm.getPerfil().isEmpty() && usuarioForm.getPerfil() != null) {
+            if(usuarioForm.getPerfil().equalsIgnoreCase(Perfil.ADMINISTRADOR.toString())) {
+                usuario.setPerfil(Perfil.ADMINISTRADOR);
+            } else {
+                usuario.setPerfil(Perfil.USUARIO);
+            }
+        }
+
+        usuario.setDataAtualizacao(LocalDate.now());
+
+        return usuario;
     }
 }

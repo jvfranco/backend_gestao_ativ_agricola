@@ -30,7 +30,7 @@ public class UsuarioController {
     public ResponseEntity<Page<UsuarioDTO>> retornarTodosUsuarios(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<UsuarioDTO> pageUsuarios = this.usuarioService.findAll(paginacao);
 
-        return ResponseEntity.ok().body(pageUsuarios);
+        return ResponseEntity.ok(pageUsuarios);
     }
 
     @GetMapping("/{id}")
@@ -38,7 +38,7 @@ public class UsuarioController {
         UsuarioDTO usuarioDTO = this.usuarioService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
-        return ResponseEntity.ok().body(usuarioDTO);
+        return ResponseEntity.ok(usuarioDTO);
     }
 
     //TODO criptografar senha

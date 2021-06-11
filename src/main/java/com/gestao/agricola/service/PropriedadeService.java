@@ -1,12 +1,10 @@
 package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Propriedade;
-import com.gestao.agricola.model.Talhao;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
 import com.gestao.agricola.repository.PropriedadeRepository;
-import com.gestao.agricola.repository.TalhaoRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,18 +13,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PropriedadeService {
 
     @Autowired
     private PropriedadeRepository propriedadeRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
 
     public Page<PropriedadeDTO> findAll(Pageable paginacao) {
@@ -37,38 +37,54 @@ public class PropriedadeService {
         return this.propriedadeRepository.findById(id).map(PropriedadeDTO::new);
     }
 
-    public Optional<Propriedade> update(UUID id, PropriedadeForm propriedadeForm, UsuarioRepository usuarioRepository, TalhaoRepository talhaoRepository) {
-        Usuario usuario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-
-        List<Talhao> talhoes = propriedadeForm.getIdTalhoes()
-                .stream()
-                .map(idTal -> {
-                    return talhaoRepository.findById(UUID.fromString(idTal)).get();
-                }).collect(Collectors.toList());
-
+    public Optional<PropriedadeDTO> update(UUID id, PropriedadeForm propriedadeForm) {
         return this.propriedadeRepository.findById(id)
                 .map(prop -> {
-                   prop.setNome(propriedadeForm.getNome());
-                   prop.setProprietario(usuario);
-                   prop.setArea(propriedadeForm.getArea());
-                   prop.setTalhoes(talhoes);
-                   prop.setDataAtualizacao(LocalDate.now());
-                   return this.propriedadeRepository.save(prop);
+                    Propriedade propSalva = this.propriedadeRepository.save(this.retornaPropriedadeAtualizada(propriedadeForm, prop));
+                    return new PropriedadeDTO(propSalva);
                 });
     }
 
-    public boolean delete(UUID id) {
-        this.propriedadeRepository.findById(id)
-                .map(propriedade -> {
-                    this.propriedadeRepository.delete(propriedade);
-                    return true;
-                });
-        return false;
+    public void delete(UUID id) {
+        Propriedade propriedade = this.propriedadeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Propriedade não encontrada!"));
+        this.propriedadeRepository.delete(propriedade);
     }
 
     public URI save(Propriedade propriedade, UriComponentsBuilder uriBuilder) {
         this.propriedadeRepository.save(propriedade);
         return uriBuilder.path("/usuario/{id}").buildAndExpand(propriedade.getId()).toUri();
+    }
+
+    private Propriedade retornaPropriedadeAtualizada(PropriedadeForm propriedadeForm, Propriedade propriedade) {
+        Usuario proprietario;
+
+        if (!propriedadeForm.getIdProprietario().isEmpty() && propriedadeForm.getIdProprietario() != null) {
+            proprietario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
+                    .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+            propriedade.setProprietario(proprietario);
+        } else {
+            proprietario = null;
+        }
+
+        if (!propriedadeForm.getNome().isEmpty() && propriedadeForm.getNome() != null) {
+            propriedade.setNome(propriedadeForm.getNome());
+        }
+
+        if (!propriedadeForm.getCoordenadas().isEmpty() && propriedadeForm.getCoordenadas() != null) {
+            propriedade.setCoordenadas(propriedadeForm.getCoordenadas());
+        }
+
+        if (propriedadeForm.getArea().compareTo(BigDecimal.ZERO) > 0) {
+            propriedade.setArea(propriedadeForm.getArea());
+        }
+
+        if (!propriedadeForm.getUnidadeMedidaArea().isBlank() && !propriedadeForm.getUnidadeMedidaArea().isEmpty() && propriedadeForm.getUnidadeMedidaArea() != null) {
+            propriedade.setUnidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea());
+        }
+
+        propriedade.setDataAtualizacao(LocalDate.now());
+
+        return propriedade;
     }
 }

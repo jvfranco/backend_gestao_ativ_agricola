@@ -17,8 +17,6 @@ import java.util.UUID;
 @Builder
 public class TalhaoForm {
 
-    private String id;
-
     private String identificacao;
 
     private BigDecimal area;

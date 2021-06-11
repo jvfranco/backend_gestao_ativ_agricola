@@ -1,7 +1,6 @@
 package com.gestao.agricola.model.form;
 
 import com.gestao.agricola.model.Propriedade;
-import com.gestao.agricola.model.Talhao;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.repository.TalhaoRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
@@ -13,9 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -23,34 +20,27 @@ import java.util.stream.Collectors;
 @Builder
 public class PropriedadeForm {
 
-    private String id;
-
     private String nome;
 
     private String idProprietario;
 
     private BigDecimal area;
 
-    private String coordenadas;
+    private String unidadeMedidaArea;
 
-    private List<String> idTalhoes;
+    private String coordenadas;
 
     public static Propriedade converter(PropriedadeForm propriedadeForm, UsuarioRepository usuarioRepository, TalhaoRepository talhaoRepository) {
         Usuario usuario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-
-        List<Talhao> talhoes = propriedadeForm.getIdTalhoes()
-                .stream()
-                .map(id -> {
-                    return talhaoRepository.findById(UUID.fromString(id)).get();
-                }).collect(Collectors.toList());
 
         return Propriedade.builder()
                 .id(UUID.randomUUID())
                 .nome(propriedadeForm.getNome())
                 .proprietario(usuario)
                 .area(propriedadeForm.getArea())
-                .talhoes(talhoes)
+                .unidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea())
+                .coordenadas(propriedadeForm.getCoordenadas())
                 .dataCadastro(LocalDate.now())
                 .build();
     }

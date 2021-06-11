@@ -38,7 +38,7 @@ public class PropriedadeController {
     public ResponseEntity<Page<PropriedadeDTO>> retornarTodosUsuarios(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<PropriedadeDTO> pagePropriedades = this.propriedadeService.findAll(paginacao);
 
-        return ResponseEntity.ok().body(pagePropriedades);
+        return ResponseEntity.ok(pagePropriedades);
     }
 
     @GetMapping("/{id}")
@@ -46,7 +46,7 @@ public class PropriedadeController {
         PropriedadeDTO propriedadeDTO = this.propriedadeService.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
 
-        return ResponseEntity.ok().body(propriedadeDTO);
+        return ResponseEntity.ok(propriedadeDTO);
     }
 
     @PostMapping
@@ -58,7 +58,7 @@ public class PropriedadeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarPropriedade(@PathVariable UUID id, @RequestBody PropriedadeForm propriedadeForm) {
-        this.propriedadeService.update(id, propriedadeForm, usuarioRepository, talhaoRepository)
+        this.propriedadeService.update(id, propriedadeForm)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
 
         return ResponseEntity.noContent().build();
@@ -66,9 +66,8 @@ public class PropriedadeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirPropriedade(@PathVariable UUID id) {
-        return this.propriedadeService.delete(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+        this.propriedadeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

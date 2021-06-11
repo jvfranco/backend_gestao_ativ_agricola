@@ -9,7 +9,6 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity @Table(name = "propriedade")
@@ -32,12 +31,12 @@ public class Propriedade {
     @Column(nullable = false)
     private BigDecimal area;
 
-    @Type(type = "jsonb")
-    @Column(nullable = false, columnDefinition = "jsonb")
-    private String coordenadas;
+    @Column(nullable = false)
+    private String unidadeMedidaArea;
 
-    @OneToMany(mappedBy = "propriedade")
-    private List<Talhao> talhoes;
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    private String coordenadas;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -46,4 +45,5 @@ public class Propriedade {
     @Column(name = "data_atualizacao")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataAtualizacao;
+
 }

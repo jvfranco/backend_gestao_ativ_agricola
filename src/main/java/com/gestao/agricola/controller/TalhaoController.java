@@ -30,7 +30,7 @@ public class TalhaoController {
     public ResponseEntity<Page<TalhaoDTO>> retornarTodosTalhoes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<TalhaoDTO> pageTalhoes = this.talhaoService.findAll(paginacao);
 
-        return ResponseEntity.ok().body(pageTalhoes);
+        return ResponseEntity.ok(pageTalhoes);
     }
 
     @GetMapping("/{id}")
@@ -38,7 +38,7 @@ public class TalhaoController {
         TalhaoDTO talhaoDTO = this.talhaoService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
 
-        return ResponseEntity.ok().body(talhaoDTO);
+        return ResponseEntity.ok(talhaoDTO);
     }
 
     //TODO criptografar senha
