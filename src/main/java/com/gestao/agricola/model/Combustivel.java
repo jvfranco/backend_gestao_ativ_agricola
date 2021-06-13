@@ -2,5 +2,5 @@ package com.gestao.agricola.model;
 
 public enum Combustivel {
 
-    GASOLINA, ETANOL, DIESEL, ELETRICO
+    GASOLINA, ETANOL, OLEO_DIESEL, ELETRICO
 }

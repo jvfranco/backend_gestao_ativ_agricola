@@ -56,15 +56,13 @@ public class PropriedadeService {
     }
 
     private Propriedade retornaPropriedadeAtualizada(PropriedadeForm propriedadeForm, Propriedade propriedade) {
-        Usuario proprietario;
+        Usuario proprietario = null;
 
         if (!propriedadeForm.getIdProprietario().isEmpty() && propriedadeForm.getIdProprietario() != null) {
             proprietario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
                     .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
             propriedade.setProprietario(proprietario);
-        } else {
-            proprietario = null;
         }
 
         if (!propriedadeForm.getNome().isEmpty() && propriedadeForm.getNome() != null) {
@@ -79,7 +77,7 @@ public class PropriedadeService {
             propriedade.setArea(propriedadeForm.getArea());
         }
 
-        if (!propriedadeForm.getUnidadeMedidaArea().isBlank() && !propriedadeForm.getUnidadeMedidaArea().isEmpty() && propriedadeForm.getUnidadeMedidaArea() != null) {
+        if (!propriedadeForm.getUnidadeMedidaArea().isEmpty() && propriedadeForm.getUnidadeMedidaArea() != null) {
             propriedade.setUnidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea());
         }
 

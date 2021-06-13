@@ -43,13 +43,12 @@ public class UsuarioService {
                 });
     }
 
-    public boolean delete(UUID id) {
-        this.usuarioRepository.findById(id)
-                .map(usuario -> {
-                    this.usuarioRepository.delete(usuario);
-                    return true;
-                });
-        return false;
+    public void delete(UUID id) {
+        try {
+            this.usuarioRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private Usuario retornaUsuarioAposUpdate(UsuarioForm usuarioForm, Usuario usuario) {

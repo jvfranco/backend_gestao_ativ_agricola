@@ -35,16 +35,16 @@ public class UsuarioForm {
     @NotNull @NotEmpty
     private String senha;
 
-    public static Usuario converter(UsuarioForm usuarioForm) {
+    public Usuario converter() {
         Usuario usuario = Usuario.builder()
                 .id(UUID.randomUUID())
-                .nome(usuarioForm.getNome())
-                .cpf(usuarioForm.getCpf())
-                .telefone(usuarioForm.getTelefone())
-                .email(usuarioForm.getEmail())
-                .perfil(usuarioForm.getPerfil().equalsIgnoreCase("administrador") ? Perfil.ADMINISTRADOR : Perfil.USUARIO)
-                .usuario(usuarioForm.getUsuario())
-                .senha(usuarioForm.getSenha())
+                .nome(this.nome)
+                .cpf(this.cpf)
+                .telefone(this.telefone)
+                .email(this.email)
+                .perfil(this.getPerfil().equalsIgnoreCase("administrador") ? Perfil.ADMINISTRADOR : Perfil.USUARIO)
+                .usuario(this.usuario)
+                .senha(this.senha)
                 .dataCadastro(LocalDate.now())
                 .build();
         return usuario;

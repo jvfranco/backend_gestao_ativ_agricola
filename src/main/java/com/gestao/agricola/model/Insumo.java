@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,8 +23,8 @@ public class Insumo {
 
     private String identificacao;
 
-    @OneToMany
-    private List<IngredienteAtivo> ingredientesAtivos;
+    @Column(name = "ingredientes_ativos")
+    private String ingredientesAtivos;
 
     @Column(nullable = false)
     private String aplicacao;
@@ -45,8 +44,9 @@ public class Insumo {
     @Column(nullable = false)
     private BigDecimal quantidade;
 
-    @Column(nullable = false, name = "unidade_de_medida")
-    private String unidadeDeMedida;
+    @OneToOne
+    @JoinColumn(name = "id_unidade_de_medida")
+    private UnidadeDeMedida unidadeDeMedida;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")

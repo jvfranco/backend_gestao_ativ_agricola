@@ -31,6 +31,10 @@ public class Talhao {
     @Column(nullable = false, columnDefinition = "jsonb")
     private String coordenadas;
 
+    @OneToOne
+    @JoinColumn(name = "id_unidade_de_medida")
+    private UnidadeDeMedida unidadeDeMedida;
+
     @Enumerated(EnumType.STRING)
     private TipoSolo tipoSolo;
 

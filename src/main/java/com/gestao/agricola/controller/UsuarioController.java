@@ -44,7 +44,7 @@ public class UsuarioController {
     //TODO criptografar senha
     @PostMapping()
     public ResponseEntity<UsuarioDTO> salvarNovoUsuario(@RequestBody @Valid UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
-        Usuario usuario = UsuarioForm.converter(usuarioForm);
+        Usuario usuario = usuarioForm.converter();
         URI uri = this.usuarioService.save(usuario, uriBuilder);
 
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuario));
@@ -60,9 +60,9 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirUsuario(@PathVariable UUID id) {
-        return this.usuarioService.delete(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+        this.usuarioService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
