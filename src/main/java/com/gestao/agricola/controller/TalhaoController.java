@@ -43,7 +43,7 @@ public class TalhaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TalhaoDTO> retornarTalhaoDetalhado(@PathVariable String id) {
-        TalhaoDTO talhaoDTO = this.talhaoService.findById(UUID.fromString(id))
+        TalhaoDTO talhaoDTO = this.talhaoService.findByIdDTO(UUID.fromString(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
 
         return ResponseEntity.ok(talhaoDTO);

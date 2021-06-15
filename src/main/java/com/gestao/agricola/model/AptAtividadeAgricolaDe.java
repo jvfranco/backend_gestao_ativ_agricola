@@ -4,28 +4,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "atividade_agricola")
-@Getter
-@Setter
+@Table(name = "atividade_agricola_detalhe")
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
 @ToString
-public class AtividadeAgricola {
+public class AptAtividadeAgricolaDe {
 
-    @Id @GeneratedValue
-    @Column(name = "id_ativ_agricola")
+    @Id
+    @GeneratedValue
     private UUID id;
-
-    @Column(name = "descricao", nullable = false)
-    @Size(max = 50)
-    private String descricao;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")

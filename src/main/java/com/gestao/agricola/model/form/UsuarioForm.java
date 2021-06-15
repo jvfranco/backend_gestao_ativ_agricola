@@ -9,7 +9,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 public class UsuarioForm {
@@ -37,7 +36,6 @@ public class UsuarioForm {
 
     public Usuario converter() {
         Usuario usuario = Usuario.builder()
-                .id(UUID.randomUUID())
                 .nome(this.nome)
                 .cpf(this.cpf)
                 .telefone(this.telefone)

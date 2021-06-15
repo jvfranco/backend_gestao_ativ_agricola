@@ -17,7 +17,7 @@ import java.util.UUID;
 @ToString
 public class Marca {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, length = 30)

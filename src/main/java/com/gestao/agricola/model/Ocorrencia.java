@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "ocorrencia")
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -18,8 +18,11 @@ import java.util.UUID;
 @ToString
 public class Ocorrencia {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
+
+    @Column(nullable = false, length = 100)
+    private String titulo;
 
     @Column(nullable = false, length = 255)
     private String observacoes;

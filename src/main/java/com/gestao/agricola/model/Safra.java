@@ -3,10 +3,7 @@ package com.gestao.agricola.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -20,7 +17,7 @@ import java.util.UUID;
 @ToString
 public class Safra {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, length = 30)

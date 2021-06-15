@@ -21,7 +21,7 @@ import java.util.UUID;
 @ToString
 public class Usuario {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, length = 150)

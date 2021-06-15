@@ -29,9 +29,9 @@ public class SafraService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Safra não encontrada!"));
     }
 
-    public URI save(Safra marca, UriComponentsBuilder uriBuilder) {
-        this.safraRepository.save(marca);
-        return uriBuilder.path("/safra/{id}").buildAndExpand(marca.getId()).toUri();
+    public URI save(Safra safra, UriComponentsBuilder uriBuilder) {
+        this.safraRepository.save(safra);
+        return uriBuilder.path("/safra/{id}").buildAndExpand(safra.getId()).toUri();
     }
 
     public void update(UUID id, Safra safraAtualizada) {

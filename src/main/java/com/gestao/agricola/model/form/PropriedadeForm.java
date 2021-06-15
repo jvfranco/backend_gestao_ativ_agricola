@@ -35,7 +35,6 @@ public class PropriedadeForm {
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         return Propriedade.builder()
-                .id(UUID.randomUUID())
                 .nome(propriedadeForm.getNome())
                 .proprietario(usuario)
                 .area(propriedadeForm.getArea())

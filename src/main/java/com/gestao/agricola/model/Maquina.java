@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "maquina")
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -17,7 +17,7 @@ import java.util.UUID;
 @ToString
 public class Maquina {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, length = 50)

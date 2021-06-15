@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "insumo")
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -18,7 +18,7 @@ import java.util.UUID;
 @ToString
 public class Insumo {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     private String identificacao;
@@ -37,9 +37,6 @@ public class Insumo {
 
     @Column(nullable = false, name = "modo_de_acao")
     private String modoDeAcao;
-
-    @Column
-    private String embalagem;
 
     @Column(nullable = false)
     private BigDecimal quantidade;

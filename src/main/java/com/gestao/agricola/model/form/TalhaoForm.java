@@ -66,7 +66,6 @@ public class TalhaoForm {
         }
 
         return Talhao.builder()
-                .id(UUID.randomUUID())
                 .identificacao(this.identificacao)
                 .area(this.area)
                 .coordenadas(this.coordenadas)

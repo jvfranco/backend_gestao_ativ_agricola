@@ -37,8 +37,13 @@ public class TalhaoService {
         return this.talhaoRepository.findAll(paginacao).map(TalhaoDTO::new);
     }
 
-    public Optional<TalhaoDTO> findById(UUID id) {
+    public Optional<TalhaoDTO> findByIdDTO(UUID id) {
         return this.talhaoRepository.findById(id).map(TalhaoDTO::new);
+    }
+
+    public Talhao findById(UUID id) {
+        return this.talhaoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Talhão não encontrado!"));
     }
 
     public URI save(Talhao talhao, UriComponentsBuilder uriBuilder) {

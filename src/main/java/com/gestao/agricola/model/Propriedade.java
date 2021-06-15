@@ -18,7 +18,7 @@ import java.util.UUID;
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Propriedade {
 
-    @Id
+    @Id @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, length = 150)
