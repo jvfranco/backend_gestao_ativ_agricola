@@ -19,7 +19,24 @@ public class AptAtividadeAgricolaDe {
 
     @Id
     @GeneratedValue
+    @Column(name = "id_apontamento_detalhe")
     private UUID id;
+
+    @ManyToOne
+    @Column(name = "id_apontamento_cabecalho")
+    private UUID idApontamentoCabecalho;
+
+    @OneToMany
+    @JoinColumn(name = "id_maquina")
+    private Maquina maquina;
+
+    @OneToMany
+    @JoinColumn(name = "id_insumo")
+    private Insumo insumo;
+
+    @ManyToOne
+    @JoinColumn(name = "id_hibrido")
+    private Hibrido hibrido;
 
     @Column(name = "data_cadastro")
     @JsonFormat(pattern = "dd/MM/yyyy")
