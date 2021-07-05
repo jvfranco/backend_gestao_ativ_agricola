@@ -3,6 +3,7 @@ package com.gestao.agricola.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +21,7 @@ public class UnidadeDeMedida {
     private UUID id;
 
     @Column(name = "abreviacao", nullable = false)
+    @Size(max = 3)
     private String abreviacao;
 
     @Column(name = "descricao", nullable = false)

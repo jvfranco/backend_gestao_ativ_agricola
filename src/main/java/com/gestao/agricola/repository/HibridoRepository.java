@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CultivarRepository extends JpaRepository<Hibrido, UUID> {
+public interface HibridoRepository extends JpaRepository<Hibrido, UUID> {
 }

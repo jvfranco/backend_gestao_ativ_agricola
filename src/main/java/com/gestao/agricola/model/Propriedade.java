@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Propriedade {
 
     @Id @GeneratedValue
+    @Column(name = "id_propriedade")
     private UUID id;
 
     @Column(nullable = false, length = 150)

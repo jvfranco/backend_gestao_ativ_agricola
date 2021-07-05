@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Ocorrencia {
 
     @Id @GeneratedValue
+    @Column(name = "id_ocorrencia")
     private UUID id;
 
     @Column(nullable = false, length = 100)
@@ -32,8 +33,8 @@ public class Ocorrencia {
     private Safra safra;
 
     @ManyToOne
-    @JoinColumn(name = "id_cultivar")
-    private Cultivar cultivar;
+    @JoinColumn(name = "id_hibrido")
+    private Hibrido hibrido;
 
     @ManyToOne
     @JoinColumn(name = "id_talhao")

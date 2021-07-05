@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Maquina {
 
     @Id @GeneratedValue
+    @Column(name = "id_maquina")
     private UUID id;
 
     @Column(nullable = false, length = 50)

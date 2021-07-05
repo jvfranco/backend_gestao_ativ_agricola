@@ -15,10 +15,10 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class Cultivar {
+public class Hibrido {
 
     @Id @GeneratedValue
-    @Column(name = "id_cultivar")
+    @Column(name = "id_hibrido")
     private UUID id;
 
     @Column(nullable = false, length = 30)

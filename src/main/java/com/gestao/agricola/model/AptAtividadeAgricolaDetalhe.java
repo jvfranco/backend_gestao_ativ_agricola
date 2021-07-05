@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 @ToString
-public class AptAtividadeAgricolaDe {
+public class AptAtividadeAgricolaDetalhe {
 
     @Id
     @GeneratedValue
@@ -23,14 +23,14 @@ public class AptAtividadeAgricolaDe {
     private UUID id;
 
     @ManyToOne
-    @Column(name = "id_apontamento_cabecalho")
-    private UUID idApontamentoCabecalho;
+    @JoinColumn(name = "id_apontamento_cabecalho")
+    private AptAtividadeAgricola idApontamentoCabecalho;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_maquina")
     private Maquina maquina;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id_insumo")
     private Insumo insumo;
 

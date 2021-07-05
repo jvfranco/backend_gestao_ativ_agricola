@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Safra {
 
     @Id @GeneratedValue
+    @Column(name = "id_safra")
     private UUID id;
 
     @Column(nullable = false, length = 30)

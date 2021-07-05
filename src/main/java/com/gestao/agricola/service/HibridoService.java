@@ -2,7 +2,7 @@ package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Hibrido;
 import com.gestao.agricola.model.Cultura;
-import com.gestao.agricola.repository.CultivarRepository;
+import com.gestao.agricola.repository.HibridoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,31 +16,31 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
-public class CultivarService {
+public class HibridoService {
 
     @Autowired
-    private CultivarRepository cultivarRepository;
+    private HibridoRepository hibridoRepository;
 
     @Autowired
     private CulturaService culturaService;
 
     public Page<Hibrido> findAll(Pageable paginacao) {
-        return this.cultivarRepository.findAll(paginacao);
+        return this.hibridoRepository.findAll(paginacao);
     }
 
     public Hibrido findById(UUID id) {
-        return this.cultivarRepository.findById(id)
+        return this.hibridoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cultivar não encontrada!"));
     }
 
     public URI save(Hibrido hibrido, UriComponentsBuilder uriBuilder) {
-        this.cultivarRepository.save(hibrido);
+        this.hibridoRepository.save(hibrido);
         return uriBuilder.path("/cultivar/{id}").buildAndExpand(hibrido.getId()).toUri();
     }
 
     public void update(UUID id, Hibrido hibridoAtualizada) {
         Hibrido hibrido = this.findById(id);
-        this.cultivarRepository.save(this.retornaCultivarAposAtualizacao(hibridoAtualizada, hibrido));
+        this.hibridoRepository.save(this.retornaCultivarAposAtualizacao(hibridoAtualizada, hibrido));
     }
 
     private Hibrido retornaCultivarAposAtualizacao(Hibrido hibridoAtualizada, Hibrido hibrido) {
@@ -68,7 +68,7 @@ public class CultivarService {
 
     public void delete(UUID id) {
         try {
-            this.cultivarRepository.deleteById(id);
+            this.hibridoRepository.deleteById(id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

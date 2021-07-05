@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Talhao {
 
     @Id @GeneratedValue
+    @Column(name = "id_talhao")
     private UUID id;
 
     @Column(nullable = false)

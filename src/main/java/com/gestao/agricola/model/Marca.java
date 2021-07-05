@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Marca {
 
     @Id @GeneratedValue
+    @Column(name = "id_marca")
     private UUID id;
 
     @Column(nullable = false, length = 30)

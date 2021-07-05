@@ -22,6 +22,7 @@ import java.util.UUID;
 public class Usuario {
 
     @Id @GeneratedValue
+    @Column(name = "id_usuario")
     private UUID id;
 
     @Column(nullable = false, length = 150)

@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Cultura {
 
     @Id @GeneratedValue
+    @Column(name = "id_cultura")
     private UUID id;
 
     @Column(nullable = false, length = 50)

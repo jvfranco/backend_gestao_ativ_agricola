@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Insumo {
 
     @Id @GeneratedValue
+    @Column(name = "id_insumo")
     private UUID id;
 
     private String identificacao;
