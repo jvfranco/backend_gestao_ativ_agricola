@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -55,5 +56,9 @@ public class MarcaService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Marca> findAll() {
+        return this.marcaRepository.findAll();
     }
 }

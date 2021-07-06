@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,7 +24,7 @@ public class SafraController {
     private SafraService safraService;
 
     @GetMapping("/todos")
-    public ResponseEntity<Page<Safra>> retornarTodasSafra(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+    public ResponseEntity<Page<Safra>> retornarTodasSafras(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<Safra> pageSafras = this.safraService.findAll(paginacao);
         return ResponseEntity.ok(pageSafras);
     }
@@ -32,6 +33,12 @@ public class SafraController {
     public ResponseEntity<Safra> retornarSafraDetalhada(@PathVariable String id) {
         Safra safra = this.safraService.findById(UUID.fromString(id));
         return ResponseEntity.ok(safra);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Safra>> retornarTodasSafrasSemPaginacao() {
+        List<Safra> safras = this.safraService.findAll();
+        return ResponseEntity.ok(safras);
     }
 
     @PostMapping()

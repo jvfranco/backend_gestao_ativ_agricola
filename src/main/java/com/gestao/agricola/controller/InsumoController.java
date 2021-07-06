@@ -1,6 +1,7 @@
 package com.gestao.agricola.controller;
 
 import com.gestao.agricola.model.Insumo;
+import com.gestao.agricola.model.form.InsumoForm;
 import com.gestao.agricola.service.InsumoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,13 +36,14 @@ public class InsumoController {
     }
 
     @PostMapping()
-    public ResponseEntity<Insumo> salvarNovaInsumo(@RequestBody @Valid Insumo insumo, UriComponentsBuilder uriBuilder) {
-        URI uri = this.insumoService.save(insumo, uriBuilder);
-        return ResponseEntity.created(uri).body(insumo);
+    public ResponseEntity<InsumoForm> salvarNovaInsumo(@RequestBody @Valid InsumoForm insumoForm, UriComponentsBuilder uriBuilder) {
+        URI uri = this.insumoService.save(insumoForm, uriBuilder);
+        return ResponseEntity.created(uri).body(insumoForm);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarInsumo(@PathVariable String id, @RequestBody Insumo insumo) {
+    public ResponseEntity<?> atualizarInsumo(@PathVariable String id, @RequestBody InsumoForm insumoForm) {
+        Insumo insumo = this.insumoService.converteInsumoFormEmInsumo(insumoForm);
         this.insumoService.update(UUID.fromString(id), insumo);
         return ResponseEntity.noContent().build();
     }

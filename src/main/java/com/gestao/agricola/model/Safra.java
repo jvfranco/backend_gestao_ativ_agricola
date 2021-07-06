@@ -25,11 +25,11 @@ public class Safra {
     private String identificacao;
 
     @Column(name = "data_inicial")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataInicial;
 
     @Column(name = "data_final")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataFinal;
 
     @Column(name = "data_cadastro")

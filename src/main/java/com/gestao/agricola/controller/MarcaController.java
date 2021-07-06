@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,6 +33,12 @@ public class MarcaController {
     public ResponseEntity<Marca> retornarMarcaDetalhada(@PathVariable String id) {
         Marca marca = this.marcaService.findById(UUID.fromString(id));
         return ResponseEntity.ok(marca);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Marca>> retornarTodasMarcasSemPaginacao() {
+        List<Marca> marcas = this.marcaService.findAll();
+        return ResponseEntity.ok(marcas);
     }
 
     @PostMapping()

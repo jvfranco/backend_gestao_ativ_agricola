@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,6 +33,12 @@ public class UnidadeDeMedidaController {
     public ResponseEntity<UnidadeDeMedida> retornarUnidadeDetalhada(@PathVariable String id) {
         UnidadeDeMedida unidadeDeMedida = this.unidadeDeMedidaService.findById(UUID.fromString(id));
         return ResponseEntity.ok(unidadeDeMedida);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UnidadeDeMedida>> retornarTodasUnidadesSemPaginacao() {
+        List<UnidadeDeMedida> unidades = this.unidadeDeMedidaService.retornarTodasUnidadesSemPaginacao();
+        return ResponseEntity.ok(unidades);
     }
 
     @PostMapping()

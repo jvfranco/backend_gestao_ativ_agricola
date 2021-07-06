@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +57,9 @@ public class UnidadeDeMedidaService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<UnidadeDeMedida> retornarTodasUnidadesSemPaginacao() {
+        return this.unidadeDeMedidaRepository.findAll();
     }
 }

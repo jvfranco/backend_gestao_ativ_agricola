@@ -2,7 +2,9 @@ package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Insumo;
 import com.gestao.agricola.model.UnidadeDeMedida;
+import com.gestao.agricola.model.form.InsumoForm;
 import com.gestao.agricola.repository.InsumoRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +36,29 @@ public class InsumoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Insumo não encontrado!"));
     }
 
-    public URI save(Insumo insumo, UriComponentsBuilder uriBuilder) {
+    public URI save(InsumoForm insumoForm, UriComponentsBuilder uriBuilder) {
+        Insumo insumo = this.converteInsumoFormEmInsumo(insumoForm);
         this.insumoRepository.save(insumo);
         return uriBuilder.path("/insumo/{id}").buildAndExpand(insumo.getId()).toUri();
+    }
+
+    public Insumo converteInsumoFormEmInsumo(InsumoForm insumoForm) {
+        UnidadeDeMedida unidade = new UnidadeDeMedida();
+
+        if(Strings.isNotEmpty(insumoForm.getIdUnidadeDeMedida())) {
+            unidade = this.unidadeDeMedidaService.findById(UUID.fromString(insumoForm.getIdUnidadeDeMedida()));
+        }
+
+        return Insumo.builder()
+                .identificacao(insumoForm.getIdentificacao())
+                .ingredientesAtivos(insumoForm.getIngredientesAtivos())
+                .aplicacao(insumoForm.getAplicacao())
+                .formulacao(insumoForm.getFormulacao())
+                .classeAgronomica(insumoForm.getClasseAgronomica())
+                .modoDeAcao(insumoForm.getModoDeAcao())
+                .quantidade(insumoForm.getQuantidade())
+                .unidadeDeMedida(unidade)
+                .build();
     }
 
     public void update(UUID id, Insumo insumoAtualizado) {

@@ -1,6 +1,7 @@
 package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Cultura;
+import com.gestao.agricola.model.dto.CulturaDTO;
 import com.gestao.agricola.repository.CulturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CulturaService {
@@ -59,5 +62,15 @@ public class CulturaService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<CulturaDTO> retornaCulturasDTO() {
+        List<Cultura> culturas = this.culturaRepository.findAll();
+        return culturas.stream().map(cultura -> {
+            return CulturaDTO.builder()
+                    .id(cultura.getId())
+                    .nome(cultura.getNome())
+                    .build();
+        }).collect(Collectors.toList());
     }
 }

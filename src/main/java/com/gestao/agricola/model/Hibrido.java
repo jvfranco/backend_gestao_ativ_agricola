@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "cultivar")
+@Table(name = "hibrido")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +28,8 @@ public class Hibrido {
     @JoinColumn(name = "id_cultura")
     private Cultura cultura;
 
-    @Column(nullable = false, name = "ciclo_em_dias")
-    private int cicloEmDias;
+    @Column(nullable = false, name = "ciclo")
+    private String ciclo;
 
     @Column(length = 255)
     private String observacoes;
