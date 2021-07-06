@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -92,8 +91,6 @@ public class TalhaoService {
                     .orElseThrow(() -> new EntityNotFoundException("Unidade de medidade de id: " + talhaoForm.getIdUnidadeDeMedida() + " não encontrada"));
             talhao.setUnidadeDeMedida(unidadeDeMedida);
         }
-
-        talhao.setDataAtualizacao(LocalDate.now());
 
         return talhao;
 

@@ -1,10 +1,8 @@
 package com.gestao.agricola.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -34,11 +32,7 @@ public class Hibrido {
     @Column(length = 255)
     private String observacoes;
 
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
-
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca marca;
 }

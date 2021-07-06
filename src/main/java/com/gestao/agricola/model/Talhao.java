@@ -1,14 +1,12 @@
 package com.gestao.agricola.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity @Table(name = "talhao")
@@ -43,11 +41,4 @@ public class Talhao {
     @JoinColumn(name = "id_propriedade")
     private Propriedade propriedade;
 
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
-
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
 }

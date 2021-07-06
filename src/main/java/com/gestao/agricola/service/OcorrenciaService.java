@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -81,8 +80,6 @@ public class OcorrenciaService {
             Talhao talhao = this.talhaoService.findById(ocorrenciaAtualizada.getTalhao().getId());
             ocorrencia.setTalhao(talhao);
         }
-
-        ocorrencia.setDataAtualizacao(LocalDate.now());
 
         return ocorrencia;
     }

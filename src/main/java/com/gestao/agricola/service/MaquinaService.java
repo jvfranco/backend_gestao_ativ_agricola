@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -80,8 +79,6 @@ public class MaquinaService {
         if(maquinaAtualizada.getPotencia() > 0) {
             maquina.setPotencia(maquinaAtualizada.getPotencia());
         }
-
-        maquina.setDataAtualizacao(LocalDate.now());
 
         return maquina;
     }

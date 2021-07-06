@@ -2,6 +2,7 @@ package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Cultura;
 import com.gestao.agricola.model.Hibrido;
+import com.gestao.agricola.model.Marca;
 import com.gestao.agricola.model.dto.CulturaDTO;
 import com.gestao.agricola.model.form.HibridoForm;
 import com.gestao.agricola.repository.HibridoRepository;
@@ -14,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,6 +27,9 @@ public class HibridoService {
 
     @Autowired
     private CulturaService culturaService;
+
+    @Autowired
+    private MarcaService marcaService;
 
     public Page<Hibrido> findAll(Pageable paginacao) {
         return this.hibridoRepository.findAll(paginacao);
@@ -45,9 +48,14 @@ public class HibridoService {
 
     public Hibrido converteFormEmEntity(HibridoForm hibridoForm) {
         Cultura cultura = new Cultura();
+        Marca marca = new Marca();
 
         if(Objects.nonNull(hibridoForm.getIdCultura())){
             cultura = this.culturaService.findById(UUID.fromString(hibridoForm.getIdCultura()));
+        }
+
+        if(Objects.nonNull(hibridoForm.getIdMarca())){
+            marca = this.marcaService.findById(UUID.fromString(hibridoForm.getIdMarca()));
         }
 
         return Hibrido.builder()
@@ -55,15 +63,16 @@ public class HibridoService {
                 .cultura(cultura)
                 .ciclo(hibridoForm.getCiclo())
                 .observacoes(hibridoForm.getObservacoes())
+                .marca(marca)
                 .build();
     }
 
     public void update(UUID id, Hibrido hibridoAtualizada) {
         Hibrido hibrido = this.findById(id);
-        this.hibridoRepository.save(this.retornaCultivarAposAtualizacao(hibridoAtualizada, hibrido));
+        this.hibridoRepository.save(this.retornaHibridoAposAtualizacao(hibridoAtualizada, hibrido));
     }
 
-    private Hibrido retornaCultivarAposAtualizacao(Hibrido hibridoAtualizada, Hibrido hibrido) {
+    private Hibrido retornaHibridoAposAtualizacao(Hibrido hibridoAtualizada, Hibrido hibrido) {
         if(!hibridoAtualizada.getIdentificacao().isEmpty() && hibridoAtualizada.getIdentificacao() != null) {
             hibrido.setIdentificacao(hibridoAtualizada.getIdentificacao());
         }
@@ -77,11 +86,14 @@ public class HibridoService {
             hibrido.setCultura(cultura);
         }
 
+        if(hibridoAtualizada.getMarca() != null && hibridoAtualizada.getMarca().getId() != hibrido.getMarca().getId()){
+            Marca marca = this.marcaService.findById(hibridoAtualizada.getMarca().getId());
+            hibrido.setMarca(marca);
+        }
+
         if(!hibridoAtualizada.getObservacoes().isEmpty() && hibridoAtualizada.getObservacoes() != null) {
             hibrido.setObservacoes(hibridoAtualizada.getObservacoes());
         }
-
-        hibrido.setDataAtualizacao(LocalDate.now());
 
         return hibrido;
     }

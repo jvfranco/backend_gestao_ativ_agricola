@@ -32,11 +32,4 @@ public class Safra {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataFinal;
 
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
-
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
 }

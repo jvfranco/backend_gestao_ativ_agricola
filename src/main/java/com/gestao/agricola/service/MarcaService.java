@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,8 +43,6 @@ public class MarcaService {
         if(!marcaAtualizada.getNome().isEmpty() && marcaAtualizada.getNome() != null) {
             marca.setNome(marcaAtualizada.getNome());
         }
-
-        marca.setDataAtualizacao(LocalDate.now());
 
         return marca;
     }

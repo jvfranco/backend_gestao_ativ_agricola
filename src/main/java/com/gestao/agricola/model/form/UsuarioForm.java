@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Getter
 public class UsuarioForm {
@@ -43,7 +42,6 @@ public class UsuarioForm {
                 .perfil(this.getPerfil().equalsIgnoreCase("administrador") ? Perfil.ADMINISTRADOR : Perfil.USUARIO)
                 .usuario(this.usuario)
                 .senha(this.senha)
-                .dataCadastro(LocalDate.now())
                 .build();
         return usuario;
     }

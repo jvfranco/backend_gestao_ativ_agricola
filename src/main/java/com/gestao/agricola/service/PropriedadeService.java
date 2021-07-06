@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -80,8 +79,6 @@ public class PropriedadeService {
         if (!propriedadeForm.getUnidadeMedidaArea().isEmpty() && propriedadeForm.getUnidadeMedidaArea() != null) {
             propriedade.setUnidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea());
         }
-
-        propriedade.setDataAtualizacao(LocalDate.now());
 
         return propriedade;
     }

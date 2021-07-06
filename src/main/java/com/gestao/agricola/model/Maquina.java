@@ -1,10 +1,8 @@
 package com.gestao.agricola.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -37,12 +35,4 @@ public class Maquina {
 
     @Column(nullable = false)
     private int potencia;
-
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
-
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
 }

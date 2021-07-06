@@ -1,11 +1,9 @@
 package com.gestao.agricola.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -46,11 +44,8 @@ public class Insumo {
     @JoinColumn(name = "id_unidade_de_medida")
     private UnidadeDeMedida unidadeDeMedida;
 
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca marca;
 
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
 }

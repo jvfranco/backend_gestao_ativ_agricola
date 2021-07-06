@@ -1,6 +1,7 @@
 package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Insumo;
+import com.gestao.agricola.model.Marca;
 import com.gestao.agricola.model.UnidadeDeMedida;
 import com.gestao.agricola.model.form.InsumoForm;
 import com.gestao.agricola.repository.InsumoRepository;
@@ -15,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -26,6 +26,9 @@ public class InsumoService {
 
     @Autowired
     private UnidadeDeMedidaService unidadeDeMedidaService;
+
+    @Autowired
+    private MarcaService marcaService;
 
     public Page<Insumo> findAll(Pageable paginacao) {
         return this.insumoRepository.findAll(paginacao);
@@ -44,9 +47,14 @@ public class InsumoService {
 
     public Insumo converteInsumoFormEmInsumo(InsumoForm insumoForm) {
         UnidadeDeMedida unidade = new UnidadeDeMedida();
+        Marca marca = new Marca();
 
         if(Strings.isNotEmpty(insumoForm.getIdUnidadeDeMedida())) {
             unidade = this.unidadeDeMedidaService.findById(UUID.fromString(insumoForm.getIdUnidadeDeMedida()));
+        }
+
+        if(Strings.isNotEmpty(insumoForm.getIdMarca())) {
+            marca = this.marcaService.findById(UUID.fromString(insumoForm.getIdMarca()));
         }
 
         return Insumo.builder()
@@ -58,6 +66,7 @@ public class InsumoService {
                 .modoDeAcao(insumoForm.getModoDeAcao())
                 .quantidade(insumoForm.getQuantidade())
                 .unidadeDeMedida(unidade)
+                .marca(marca)
                 .build();
     }
 
@@ -100,7 +109,10 @@ public class InsumoService {
             insumo.setUnidadeDeMedida(unidade);
         }
 
-        insumo.setDataAtualizacao(LocalDate.now());
+        if(!insumoAtualizado.getMarca().getId().toString().isEmpty() && insumoAtualizado.getMarca().getId().toString() != null) {
+            Marca marca = this.marcaService.findById(insumoAtualizado.getMarca().getId());
+            insumo.setMarca(marca);
+        }
 
         return insumo;
     }

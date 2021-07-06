@@ -18,6 +18,9 @@ public class HibridoForm {
     @NotNull
     private String ciclo;
 
+    @NotNull
+    private String idMarca;
+
     private String observacoes;
 
 }

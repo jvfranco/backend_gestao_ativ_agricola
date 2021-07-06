@@ -37,4 +37,7 @@ public class InsumoForm {
 
     @NotNull
     private String idUnidadeDeMedida;
+
+    @NotNull
+    private  String idMarca;
 }

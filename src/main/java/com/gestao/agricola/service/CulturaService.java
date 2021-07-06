@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -50,8 +49,6 @@ public class CulturaService {
         if(!culturaAtualizada.getNomeCientifico().isEmpty() && culturaAtualizada.getNomeCientifico() != null) {
             cultura.setNomeCientifico(culturaAtualizada.getNomeCientifico());
         }
-
-        cultura.setDataAtualizacao(LocalDate.now());
 
         return cultura;
     }

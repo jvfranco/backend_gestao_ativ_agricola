@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,8 +51,6 @@ public class SafraService {
         if(safraAtualizada.getDataFinal() != null) {
             safra.setDataFinal(safraAtualizada.getDataFinal());
         }
-
-        safra.setDataAtualizacao(LocalDate.now());
 
         return safra;
     }

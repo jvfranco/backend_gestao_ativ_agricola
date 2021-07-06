@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -80,8 +79,6 @@ public class UsuarioService {
                 usuario.setPerfil(Perfil.USUARIO);
             }
         }
-
-        usuario.setDataAtualizacao(LocalDate.now());
 
         return usuario;
     }

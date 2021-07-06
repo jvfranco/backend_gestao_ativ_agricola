@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -72,7 +71,6 @@ public class TalhaoForm {
                 .unidadeDeMedida(unidadeDeMedida)
                 .tipoSolo(solo)
                 .propriedade(propriedade)
-                .dataCadastro(LocalDate.now())
                 .build();
     }
 }

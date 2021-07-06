@@ -40,7 +40,6 @@ public class PropriedadeForm {
                 .area(propriedadeForm.getArea())
                 .unidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea())
                 .coordenadas(propriedadeForm.getCoordenadas())
-                .dataCadastro(LocalDate.now())
                 .build();
     }
 }
