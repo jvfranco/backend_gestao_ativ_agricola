@@ -1,6 +1,7 @@
 package com.gestao.agricola.controller;
 
 import com.gestao.agricola.model.Maquina;
+import com.gestao.agricola.model.form.MaquinaForm;
 import com.gestao.agricola.service.MaquinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,13 +36,15 @@ public class MaquinaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Maquina> salvarNovaMaquina(@RequestBody @Valid Maquina maquina, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Maquina> salvarNovaMaquina(@RequestBody @Valid MaquinaForm maquinaForm, UriComponentsBuilder uriBuilder) {
+        Maquina maquina = this.maquinaService.converteMaquinaFormEmMaquina(maquinaForm);
         URI uri = this.maquinaService.save(maquina, uriBuilder);
         return ResponseEntity.created(uri).body(maquina);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarMaquina(@PathVariable String id, @RequestBody Maquina maquina) {
+    public ResponseEntity<?> atualizarMaquina(@PathVariable String id, @RequestBody MaquinaForm maquinaForm) {
+        Maquina maquina = this.maquinaService.converteMaquinaFormEmMaquina(maquinaForm);
         this.maquinaService.update(UUID.fromString(id), maquina);
         return ResponseEntity.noContent().build();
     }

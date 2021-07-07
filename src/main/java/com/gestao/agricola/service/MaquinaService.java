@@ -3,6 +3,7 @@ package com.gestao.agricola.service;
 import com.gestao.agricola.model.Combustivel;
 import com.gestao.agricola.model.Maquina;
 import com.gestao.agricola.model.Marca;
+import com.gestao.agricola.model.form.MaquinaForm;
 import com.gestao.agricola.repository.MaquinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.UUID;
+
+import static com.gestao.agricola.model.Combustivel.*;
 
 @Service
 public class MaquinaService {
@@ -62,13 +65,13 @@ public class MaquinaService {
                 maquinaAtualizada.getCombustivel().toString().compareTo(maquina.getCombustivel().toString()) != 0) {
             switch (maquinaAtualizada.getCombustivel())  {
                 case ETANOL:
-                    maquina.setCombustivel(Combustivel.ETANOL);
+                    maquina.setCombustivel(ETANOL);
                     break;
                 case ELETRICO:
-                    maquina.setCombustivel(Combustivel.ELETRICO);
+                    maquina.setCombustivel(ELETRICO);
                     break;
                 case GASOLINA:
-                    maquina.setCombustivel(Combustivel.GASOLINA);
+                    maquina.setCombustivel(GASOLINA);
                     break;
                 case OLEO_DIESEL:
                     maquina.setCombustivel(Combustivel.OLEO_DIESEL);
@@ -76,7 +79,7 @@ public class MaquinaService {
             }
         }
 
-        if(maquinaAtualizada.getPotencia() > 0) {
+        if(!maquinaAtualizada.getPotencia().isEmpty()) {
             maquina.setPotencia(maquinaAtualizada.getPotencia());
         }
 
@@ -89,5 +92,36 @@ public class MaquinaService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Maquina converteMaquinaFormEmMaquina(MaquinaForm maquinaForm) {
+        Maquina maquina = new Maquina();
+
+        if (!maquinaForm.getIdMarca().isEmpty() && maquinaForm.getIdMarca() != null) {
+            maquina.setMarca(this.marcaService.findById(UUID.fromString(maquinaForm.getIdMarca())));
+        }
+
+        if (!maquinaForm.getCombustivel().isEmpty() && maquinaForm.getCombustivel() != null) {
+            switch (maquinaForm.getCombustivel()) {
+                case "ETANOL":
+                    maquina.setCombustivel(ETANOL);
+                    break;
+                case "ELETRICO":
+                    maquina.setCombustivel(ELETRICO);
+                    break;
+                case "GASOLINA":
+                    maquina.setCombustivel(GASOLINA);
+                    break;
+                case "OLEO DIESEL":
+                    maquina.setCombustivel(Combustivel.OLEO_DIESEL);
+                    break;
+            }
+        }
+
+        maquina.setModelo(maquinaForm.getModelo());
+        maquina.setHorimetro(maquinaForm.getHorimetro());
+        maquina.setPotencia(maquinaForm.getPotencia());
+
+        return maquina;
     }
 }

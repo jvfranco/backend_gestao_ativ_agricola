@@ -34,5 +34,5 @@ public class Maquina {
     private Combustivel combustivel;
 
     @Column(nullable = false)
-    private int potencia;
+    private String potencia;
 }
