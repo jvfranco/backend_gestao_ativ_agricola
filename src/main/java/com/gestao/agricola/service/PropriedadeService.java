@@ -1,10 +1,12 @@
 package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Propriedade;
+import com.gestao.agricola.model.UnidadeDeMedida;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
 import com.gestao.agricola.repository.PropriedadeRepository;
+import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,9 @@ public class PropriedadeService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
 
 
     public Page<PropriedadeDTO> findAll(Pageable paginacao) {
@@ -76,8 +81,9 @@ public class PropriedadeService {
             propriedade.setArea(propriedadeForm.getArea());
         }
 
-        if (!propriedadeForm.getUnidadeMedidaArea().isEmpty() && propriedadeForm.getUnidadeMedidaArea() != null) {
-            propriedade.setUnidadeMedidaArea(propriedadeForm.getUnidadeMedidaArea());
+        if(!propriedadeForm.getIdUnidadeMedidaArea().isEmpty() && propriedadeForm.getIdUnidadeMedidaArea() != null) {
+            UnidadeDeMedida unidade = this.unidadeDeMedidaRepository.findById(UUID.fromString(propriedadeForm.getIdUnidadeMedidaArea())).get();
+            propriedade.setUnidadeDeMedida(unidade);
         }
 
         return propriedade;

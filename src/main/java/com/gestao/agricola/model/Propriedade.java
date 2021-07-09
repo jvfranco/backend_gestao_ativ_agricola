@@ -30,8 +30,9 @@ public class Propriedade {
     @Column(nullable = false)
     private BigDecimal area;
 
-    @Column(nullable = false)
-    private String unidadeMedidaArea;
+    @OneToOne
+    @JoinColumn(name = "id_unidade_de_medida")
+    private UnidadeDeMedida unidadeDeMedida;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")

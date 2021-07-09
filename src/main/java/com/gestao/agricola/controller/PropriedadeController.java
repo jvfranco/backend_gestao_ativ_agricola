@@ -3,7 +3,7 @@ package com.gestao.agricola.controller;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
-import com.gestao.agricola.repository.TalhaoRepository;
+import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import com.gestao.agricola.service.PropriedadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +29,13 @@ public class PropriedadeController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private TalhaoRepository talhaoRepository;
+    private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
 
     @Autowired
     private PropriedadeService propriedadeService;
 
     @GetMapping("/todos")
-    public ResponseEntity<Page<PropriedadeDTO>> retornarTodosUsuarios(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+    public ResponseEntity<Page<PropriedadeDTO>> retornarTodosPropriedades(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<PropriedadeDTO> pagePropriedades = this.propriedadeService.findAll(paginacao);
 
         return ResponseEntity.ok(pagePropriedades);
@@ -51,7 +51,7 @@ public class PropriedadeController {
 
     @PostMapping
     public ResponseEntity<PropriedadeDTO> salvarNovaPropriedade(@RequestBody @Valid PropriedadeForm propriedadeForm, UriComponentsBuilder uriBuilder) {
-        Propriedade propriedade = PropriedadeForm.converter(propriedadeForm, this.usuarioRepository, this.talhaoRepository);
+        Propriedade propriedade = PropriedadeForm.converter(propriedadeForm, this.usuarioRepository, this.unidadeDeMedidaRepository);
         URI uri = this.propriedadeService.save(propriedade, uriBuilder);
         return ResponseEntity.created(uri).body(new PropriedadeDTO(propriedade));
     }
