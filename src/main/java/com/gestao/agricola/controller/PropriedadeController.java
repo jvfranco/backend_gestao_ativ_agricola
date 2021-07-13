@@ -3,6 +3,7 @@ package com.gestao.agricola.controller;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
+import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import com.gestao.agricola.service.PropriedadeService;
@@ -34,6 +35,9 @@ public class PropriedadeController {
     @Autowired
     private PropriedadeService propriedadeService;
 
+    @Autowired
+    private PessoaRepository pessoaRepository;
+
     @GetMapping("/todos")
     public ResponseEntity<Page<PropriedadeDTO>> retornarTodosPropriedades(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<PropriedadeDTO> pagePropriedades = this.propriedadeService.findAll(paginacao);
@@ -51,7 +55,7 @@ public class PropriedadeController {
 
     @PostMapping
     public ResponseEntity<PropriedadeDTO> salvarNovaPropriedade(@RequestBody @Valid PropriedadeForm propriedadeForm, UriComponentsBuilder uriBuilder) {
-        Propriedade propriedade = PropriedadeForm.converter(propriedadeForm, this.usuarioRepository, this.unidadeDeMedidaRepository);
+        Propriedade propriedade = PropriedadeForm.converter(propriedadeForm, this.pessoaRepository, this.unidadeDeMedidaRepository);
         URI uri = this.propriedadeService.save(propriedade, uriBuilder);
         return ResponseEntity.created(uri).body(new PropriedadeDTO(propriedade));
     }

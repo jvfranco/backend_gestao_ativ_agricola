@@ -25,7 +25,7 @@ public class Propriedade {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario proprietario;
+    private Pessoa proprietario;
 
     @Column(nullable = false)
     private BigDecimal area;

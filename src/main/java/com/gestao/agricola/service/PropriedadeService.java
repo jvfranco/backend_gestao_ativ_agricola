@@ -1,10 +1,11 @@
 package com.gestao.agricola.service;
 
+import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.UnidadeDeMedida;
-import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
+import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.PropriedadeRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
@@ -31,6 +32,9 @@ public class PropriedadeService {
 
     @Autowired
     private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
 
     public Page<PropriedadeDTO> findAll(Pageable paginacao) {
@@ -60,11 +64,10 @@ public class PropriedadeService {
     }
 
     private Propriedade retornaPropriedadeAtualizada(PropriedadeForm propriedadeForm, Propriedade propriedade) {
-        Usuario proprietario = null;
 
         if (!propriedadeForm.getIdProprietario().isEmpty() && propriedadeForm.getIdProprietario() != null) {
-            proprietario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
-                    .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+            Pessoa proprietario = this.pessoaRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
+                    .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
 
             propriedade.setProprietario(proprietario);
         }
@@ -81,8 +84,8 @@ public class PropriedadeService {
             propriedade.setArea(propriedadeForm.getArea());
         }
 
-        if(!propriedadeForm.getIdUnidadeMedidaArea().isEmpty() && propriedadeForm.getIdUnidadeMedidaArea() != null) {
-            UnidadeDeMedida unidade = this.unidadeDeMedidaRepository.findById(UUID.fromString(propriedadeForm.getIdUnidadeMedidaArea())).get();
+        if(!propriedadeForm.getIdUnidade().isEmpty() && propriedadeForm.getIdUnidade() != null) {
+            UnidadeDeMedida unidade = this.unidadeDeMedidaRepository.findById(UUID.fromString(propriedadeForm.getIdUnidade())).get();
             propriedade.setUnidadeDeMedida(unidade);
         }
 

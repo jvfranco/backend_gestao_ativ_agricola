@@ -1,11 +1,8 @@
 package com.gestao.agricola.model;
 
 import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -23,30 +20,19 @@ public class Usuario {
     @Column(name = "id_usuario")
     private UUID id;
 
-    @Column(nullable = false, length = 150)
-    @NotEmpty
-    private String nome;
+    @OneToOne
+    @JoinColumn(name = "id_pessoa")
+    private Pessoa pessoa;
 
-    @Column(nullable = false, length = 11, unique = true)
-    @NotNull @CPF
-    private String cpf;
-
-    @Column(nullable = false, length = 150)
-    @Email
-    private String email;
-
-    @Column
-    private String telefone;
-
-    @Column(nullable = true)
     @NotNull
+    @Column(nullable = true, unique = true)
     private String usuario;
-
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private Perfil perfil;
 
     @Column(nullable = false)
     @NotNull
     private String senha;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Perfil perfil;
 }

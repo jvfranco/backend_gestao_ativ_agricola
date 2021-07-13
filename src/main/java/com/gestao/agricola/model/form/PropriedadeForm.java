@@ -1,10 +1,10 @@
 package com.gestao.agricola.model.form;
 
+import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.UnidadeDeMedida;
-import com.gestao.agricola.model.Usuario;
+import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
-import com.gestao.agricola.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,21 +31,21 @@ public class PropriedadeForm {
     private BigDecimal area;
 
     @NotNull
-    private String idUnidadeMedidaArea;
+    private String idUnidade;
 
     @NotNull
     private String coordenadas;
 
-    public static Propriedade converter(PropriedadeForm propriedadeForm, UsuarioRepository usuarioRepository, UnidadeDeMedidaRepository unidadeDeMedidaRepository) {
-        Usuario usuario = usuarioRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
-                .orElseThrow(() -> new EntityNotFoundException("Proprietário não encontrado"));
+    public static Propriedade converter(PropriedadeForm propriedadeForm, PessoaRepository pessoaRepository, UnidadeDeMedidaRepository unidadeDeMedidaRepository) {
+        Pessoa proprietario = pessoaRepository.findById(UUID.fromString(propriedadeForm.getIdProprietario()))
+                .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
 
-        UnidadeDeMedida unidadeDeMedida = unidadeDeMedidaRepository.findById(UUID.fromString(propriedadeForm.getIdUnidadeMedidaArea()))
+        UnidadeDeMedida unidadeDeMedida = unidadeDeMedidaRepository.findById(UUID.fromString(propriedadeForm.getIdUnidade()))
                 .orElseThrow(() -> new EntityNotFoundException("Unidade de Medida não encontrada"));
 
         return Propriedade.builder()
                 .nome(propriedadeForm.getNome())
-                .proprietario(usuario)
+                .proprietario(proprietario)
                 .area(propriedadeForm.getArea())
                 .unidadeDeMedida(unidadeDeMedida)
                 .coordenadas(propriedadeForm.getCoordenadas())

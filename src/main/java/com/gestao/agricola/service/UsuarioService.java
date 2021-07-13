@@ -1,9 +1,11 @@
 package com.gestao.agricola.service;
 
 import com.gestao.agricola.model.Perfil;
+import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
 import com.gestao.agricola.model.form.UsuarioForm;
+import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +23,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     public Page<UsuarioDTO> findAll(Pageable paginacao) {
         return this.usuarioRepository.findAll(paginacao).map(UsuarioDTO::new);
@@ -52,20 +58,10 @@ public class UsuarioService {
 
     private Usuario retornaUsuarioAposUpdate(UsuarioForm usuarioForm, Usuario usuario) {
 
-        if(!usuarioForm.getNome().isEmpty() && usuarioForm.getNome() != null) {
-            usuario.setNome(usuarioForm.getNome());
-        }
-
-        if(!usuarioForm.getCpf().isEmpty() && usuarioForm.getCpf() != null) {
-            usuario.setCpf(usuarioForm.getCpf());
-        }
-
-        if(!usuarioForm.getTelefone().isEmpty() && usuarioForm.getTelefone() != null) {
-            usuario.setTelefone(usuarioForm.getTelefone());
-        }
-
-        if(!usuarioForm.getEmail().isEmpty() && usuarioForm.getEmail() != null) {
-            usuario.setEmail(usuarioForm.getEmail());
+        if (usuarioForm.getPessoa() != null && usuarioForm.getPessoa() != usuario.getPessoa()) {
+            Pessoa pessoa = pessoaRepository.findById(usuarioForm.getPessoa().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
+            usuario.setPessoa(pessoa);
         }
 
         if(!usuarioForm.getUsuario().isEmpty() && usuarioForm.getUsuario() != null) {

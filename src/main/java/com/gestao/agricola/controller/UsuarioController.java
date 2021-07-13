@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class UsuarioController {
 
     //TODO criptografar senha
     @PostMapping()
-    public ResponseEntity<UsuarioDTO> salvarNovoUsuario(@RequestBody @Valid UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UsuarioDTO> salvarNovoUsuario(@RequestBody UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
         Usuario usuario = usuarioForm.converter();
         URI uri = this.usuarioService.save(usuario, uriBuilder);
 
