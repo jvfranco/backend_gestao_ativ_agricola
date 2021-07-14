@@ -1,7 +1,6 @@
 package com.gestao.agricola.controller;
 
 import com.gestao.agricola.model.Talhao;
-import com.gestao.agricola.model.dto.TalhaoDTO;
 import com.gestao.agricola.model.form.TalhaoForm;
 import com.gestao.agricola.repository.PropriedadeRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
@@ -35,32 +34,31 @@ public class TalhaoController {
     private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
 
     @GetMapping("/todos")
-    public ResponseEntity<Page<TalhaoDTO>> retornarTodosTalhoes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
-        Page<TalhaoDTO> pageTalhoes = this.talhaoService.findAll(paginacao);
+    public ResponseEntity<Page<Talhao>> retornarTodosTalhoes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+        Page<Talhao> pageTalhoes = this.talhaoService.findAll(paginacao);
 
         return ResponseEntity.ok(pageTalhoes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TalhaoDTO> retornarTalhaoDetalhado(@PathVariable String id) {
-        TalhaoDTO talhaoDTO = this.talhaoService.findByIdDTO(UUID.fromString(id))
+    public ResponseEntity<Talhao> retornarTalhaoDetalhado(@PathVariable String id) {
+        Talhao talhao = this.talhaoService.findByIdDTO(UUID.fromString(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
 
-        return ResponseEntity.ok(talhaoDTO);
+        return ResponseEntity.ok(talhao);
     }
 
     //TODO criptografar senha
     @PostMapping()
-    public ResponseEntity<TalhaoDTO> salvarNovoTalhao(@RequestBody @Valid TalhaoForm talhaoForm, UriComponentsBuilder uriBuilder) {
-        Talhao talhao = talhaoForm.converter(this.propriedadeRepository, this.unidadeDeMedidaRepository);
+    public ResponseEntity<Talhao> salvarNovoTalhao(@RequestBody @Valid Talhao talhao, UriComponentsBuilder uriBuilder) {
         URI uri = this.talhaoService.save(talhao, uriBuilder);
 
-        return ResponseEntity.created(uri).body(new TalhaoDTO(talhao));
+        return ResponseEntity.created(uri).body(talhao);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarTalhao(@PathVariable String id, @RequestBody @Valid TalhaoForm talhaoForm) {
-        this.talhaoService.update(UUID.fromString(id), talhaoForm)
+    public ResponseEntity<?> atualizarTalhao(@PathVariable String id, @RequestBody @Valid Talhao talhao) {
+        this.talhaoService.update(UUID.fromString(id), talhao)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
 
         return ResponseEntity.noContent().build();

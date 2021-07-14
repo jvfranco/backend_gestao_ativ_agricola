@@ -1,5 +1,6 @@
 package com.gestao.agricola.controller;
 
+import com.gestao.agricola.model.Ocupacao;
 import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,12 @@ public class PessoaController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada"));
 
         return ResponseEntity.ok(pessoa);
+    }
+
+    @GetMapping("/ocup={ocupacao}")
+    public ResponseEntity<List<Pessoa>> retornarTodasPessoasPorOcupacao(@PathVariable Ocupacao ocupacao) {
+        List<Pessoa> pessoas = this.pessoaService.findByOcupacao(ocupacao);
+        return ResponseEntity.ok(pessoas);
     }
 
     @GetMapping()

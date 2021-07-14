@@ -82,4 +82,8 @@ public class PessoaService {
     public List<Pessoa> findAll() {
         return this.pessoaRepository.findAll();
     }
+
+    public List<Pessoa> findByOcupacao(Ocupacao ocupacao) {
+        return this.pessoaRepository.findByOcupacao(ocupacao);
+    }
 }

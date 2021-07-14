@@ -3,8 +3,6 @@ package com.gestao.agricola.service;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.Talhao;
 import com.gestao.agricola.model.UnidadeDeMedida;
-import com.gestao.agricola.model.dto.TalhaoDTO;
-import com.gestao.agricola.model.form.TalhaoForm;
 import com.gestao.agricola.repository.PropriedadeRepository;
 import com.gestao.agricola.repository.TalhaoRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
@@ -32,12 +30,12 @@ public class TalhaoService {
     @Autowired
     private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
 
-    public Page<TalhaoDTO> findAll(Pageable paginacao) {
-        return this.talhaoRepository.findAll(paginacao).map(TalhaoDTO::new);
+    public Page<Talhao> findAll(Pageable paginacao) {
+        return this.talhaoRepository.findAll(paginacao);
     }
 
-    public Optional<TalhaoDTO> findByIdDTO(UUID id) {
-        return this.talhaoRepository.findById(id).map(TalhaoDTO::new);
+    public Optional<Talhao> findByIdDTO(UUID id) {
+        return this.talhaoRepository.findById(id);
     }
 
     public Talhao findById(UUID id) {
@@ -50,10 +48,10 @@ public class TalhaoService {
         return uriBuilder.path("/talhao/{id}").buildAndExpand(talhao.getId()).toUri();
     }
 
-    public Optional<Talhao> update(UUID id, TalhaoForm talhaoForm) {
+    public Optional<Talhao> update(UUID id, Talhao talhaoAt) {
         return this.talhaoRepository.findById(id)
                 .map(talhao -> {
-                    Talhao talhaoAtualizado = this.talhaoRepository.save(this.retornaTalhaoAposAtualizacao(talhaoForm, talhao));
+                    Talhao talhaoAtualizado = this.talhaoRepository.save(this.retornaTalhaoAposAtualizacao(talhaoAt, talhao));
                     return talhaoAtualizado;
                 });
     }
@@ -66,29 +64,29 @@ public class TalhaoService {
         }
     }
 
-    private Talhao retornaTalhaoAposAtualizacao(TalhaoForm talhaoForm, Talhao talhao) {
+    private Talhao retornaTalhaoAposAtualizacao(Talhao talhaoAt, Talhao talhao) {
 
-        if(!talhaoForm.getIdPropriedade().isEmpty() && talhaoForm.getIdPropriedade() != null) {
-            Propriedade propriedade = this.propriedadeRepository.findById(UUID.fromString(talhaoForm.getIdPropriedade()))
-                    .orElseThrow(() -> new EntityNotFoundException("Propriedade de id: " + talhaoForm.getIdPropriedade() + " não encontrada!"));
+        if(!talhaoAt.getPropriedade().getId().toString().isEmpty() && talhaoAt.getPropriedade().getId().toString() != null) {
+            Propriedade propriedade = this.propriedadeRepository.findById(talhaoAt.getPropriedade().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Propriedade de id: " + talhaoAt.getPropriedade().getId().toString() + " não encontrada!"));
             talhao.setPropriedade(propriedade);
         }
 
-        if(!talhaoForm.getIdentificacao().isEmpty() && talhaoForm.getIdentificacao() != null) {
-            talhao.setIdentificacao(talhaoForm.getIdentificacao());
+        if(!talhaoAt.getIdentificacao().isEmpty() && talhaoAt.getIdentificacao() != null) {
+            talhao.setIdentificacao(talhaoAt.getIdentificacao());
         }
 
-        if(talhaoForm.getArea().compareTo(BigDecimal.ZERO) > 0) {
-            talhao.setArea(talhaoForm.getArea());
+        if(talhaoAt.getArea().compareTo(BigDecimal.ZERO) > 0) {
+            talhao.setArea(talhaoAt.getArea());
         }
 
-        if(!talhaoForm.getCoordenadas().isEmpty() && talhaoForm.getCoordenadas() != null) {
-            talhao.setCoordenadas(talhaoForm.getCoordenadas());
+        if(!talhaoAt.getCoordenadas().isEmpty() && talhaoAt.getCoordenadas() != null) {
+            talhao.setCoordenadas(talhaoAt.getCoordenadas());
         }
 
-        if(!talhaoForm.getIdUnidadeDeMedida().isEmpty() && talhaoForm.getIdUnidadeDeMedida() != null) {
-            UnidadeDeMedida unidadeDeMedida = this.unidadeDeMedidaRepository.findById(UUID.fromString(talhaoForm.getIdUnidadeDeMedida()))
-                    .orElseThrow(() -> new EntityNotFoundException("Unidade de medidade de id: " + talhaoForm.getIdUnidadeDeMedida() + " não encontrada"));
+        if(!talhaoAt.getUnidadeDeMedida().getId().toString().isEmpty() && talhaoAt.getUnidadeDeMedida().getId().toString() != null) {
+            UnidadeDeMedida unidadeDeMedida = this.unidadeDeMedidaRepository.findById(talhaoAt.getUnidadeDeMedida().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Unidade de medidade de id: " + talhaoAt.getUnidadeDeMedida().getId().toString() + " não encontrada"));
             talhao.setUnidadeDeMedida(unidadeDeMedida);
         }
 

@@ -3,7 +3,6 @@ package com.gestao.agricola.service;
 import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Propriedade;
 import com.gestao.agricola.model.UnidadeDeMedida;
-import com.gestao.agricola.model.dto.PropriedadeDTO;
 import com.gestao.agricola.model.form.PropriedadeForm;
 import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.PropriedadeRepository;
@@ -18,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,19 +37,19 @@ public class PropriedadeService {
     private PessoaRepository pessoaRepository;
 
 
-    public Page<PropriedadeDTO> findAll(Pageable paginacao) {
-        return this.propriedadeRepository.findAll(paginacao).map(PropriedadeDTO::new);
+    public Page<Propriedade> findAll(Pageable paginacao) {
+        return this.propriedadeRepository.findAll(paginacao);
     }
 
-    public Optional<PropriedadeDTO> findById(UUID id) {
-        return this.propriedadeRepository.findById(id).map(PropriedadeDTO::new);
+    public Optional<Propriedade> findById(UUID id) {
+        return this.propriedadeRepository.findById(id);
     }
 
-    public Optional<PropriedadeDTO> update(UUID id, PropriedadeForm propriedadeForm) {
+    public Optional<Propriedade> update(UUID id, PropriedadeForm propriedadeForm) {
         return this.propriedadeRepository.findById(id)
                 .map(prop -> {
                     Propriedade propSalva = this.propriedadeRepository.save(this.retornaPropriedadeAtualizada(propriedadeForm, prop));
-                    return new PropriedadeDTO(propSalva);
+                    return propSalva;
                 });
     }
 
@@ -90,5 +90,9 @@ public class PropriedadeService {
         }
 
         return propriedade;
+    }
+
+    public List<Propriedade> findAll() {
+        return this.propriedadeRepository.findAll();
     }
 }
