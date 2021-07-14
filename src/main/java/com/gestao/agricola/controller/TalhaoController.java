@@ -1,7 +1,6 @@
 package com.gestao.agricola.controller;
 
 import com.gestao.agricola.model.Talhao;
-import com.gestao.agricola.model.form.TalhaoForm;
 import com.gestao.agricola.repository.PropriedadeRepository;
 import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import com.gestao.agricola.service.TalhaoService;
