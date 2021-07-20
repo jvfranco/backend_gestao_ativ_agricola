@@ -10,12 +10,13 @@ import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,8 +32,9 @@ public class UsuarioService {
         return this.usuarioRepository.findAll(paginacao).map(UsuarioDTO::new);
     }
 
-    public Optional<UsuarioDTO> findById(UUID id) {
-        return this.usuarioRepository.findById(id).map(UsuarioDTO::new);
+    public UsuarioDTO findById(UUID id) {
+        return this.usuarioRepository.findById(id).map(UsuarioDTO::new)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
     public URI save(Usuario usuario, UriComponentsBuilder uriBuilder) {
@@ -40,12 +42,13 @@ public class UsuarioService {
         return uriBuilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
     }
 
-    public Optional<UsuarioDTO> update(UUID id, UsuarioForm usuarioForm) {
+    public UsuarioDTO update(UUID id, UsuarioForm usuarioForm) {
         return this.usuarioRepository.findById(id)
                 .map(usuario -> {
                     Usuario usuarioSalvo = this.usuarioRepository.save(this.retornaUsuarioAposUpdate(usuarioForm, usuario));
                     return new UsuarioDTO(usuarioSalvo);
-                });
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
     public void delete(UUID id) {

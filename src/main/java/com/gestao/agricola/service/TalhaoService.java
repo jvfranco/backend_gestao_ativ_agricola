@@ -9,13 +9,15 @@ import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,8 +36,9 @@ public class TalhaoService {
         return this.talhaoRepository.findAll(paginacao);
     }
 
-    public Optional<Talhao> findByIdDTO(UUID id) {
-        return this.talhaoRepository.findById(id);
+    public Talhao findByIdDTO(UUID id) {
+        return this.talhaoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
     }
 
     public Talhao findById(UUID id) {
@@ -48,12 +51,13 @@ public class TalhaoService {
         return uriBuilder.path("/talhao/{id}").buildAndExpand(talhao.getId()).toUri();
     }
 
-    public Optional<Talhao> update(UUID id, Talhao talhaoAt) {
+    public Talhao update(UUID id, Talhao talhaoAt) {
         return this.talhaoRepository.findById(id)
                 .map(talhao -> {
                     Talhao talhaoAtualizado = this.talhaoRepository.save(this.retornaTalhaoAposAtualizacao(talhaoAt, talhao));
                     return talhaoAtualizado;
-                });
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
     }
 
     public void delete(UUID id) {
@@ -92,5 +96,13 @@ public class TalhaoService {
 
         return talhao;
 
+    }
+
+    public List<Talhao> findAll() {
+        return this.talhaoRepository.findAll();
+    }
+
+    public List<Talhao> findByIdPropriedade(String id) {
+        return this.talhaoRepository.findAllByPropriedade(UUID.fromString(id));
     }
 }

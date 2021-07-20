@@ -11,14 +11,15 @@ import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -41,16 +42,18 @@ public class PropriedadeService {
         return this.propriedadeRepository.findAll(paginacao);
     }
 
-    public Optional<Propriedade> findById(UUID id) {
-        return this.propriedadeRepository.findById(id);
+    public Propriedade findById(UUID id) {
+        return this.propriedadeRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
     }
 
-    public Optional<Propriedade> update(UUID id, PropriedadeForm propriedadeForm) {
+    public Propriedade update(UUID id, PropriedadeForm propriedadeForm) {
         return this.propriedadeRepository.findById(id)
                 .map(prop -> {
                     Propriedade propSalva = this.propriedadeRepository.save(this.retornaPropriedadeAtualizada(propriedadeForm, prop));
                     return propSalva;
-                });
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
     }
 
     public void delete(UUID id) {

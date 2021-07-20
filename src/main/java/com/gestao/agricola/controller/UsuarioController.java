@@ -9,10 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -34,8 +32,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> retornarUsuarioDetalhado(@PathVariable UUID id) {
-        UsuarioDTO usuarioDTO = this.usuarioService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        UsuarioDTO usuarioDTO = this.usuarioService.findById(id);
 
         return ResponseEntity.ok(usuarioDTO);
     }
@@ -51,8 +48,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarUsuario(@PathVariable UUID id, @RequestBody UsuarioForm usuarioForm) {
-        this.usuarioService.update(id, usuarioForm)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        this.usuarioService.update(id, usuarioForm);
 
         return ResponseEntity.noContent().build();
     }

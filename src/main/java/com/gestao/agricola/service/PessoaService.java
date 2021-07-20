@@ -6,7 +6,9 @@ import com.gestao.agricola.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -24,8 +26,9 @@ public class PessoaService {
         return this.pessoaRepository.findAll(paginacao);
     }
 
-    public Optional<Pessoa> findById(UUID id) {
-        return this.pessoaRepository.findById(id);
+    public Pessoa findById(UUID id) {
+        return this.pessoaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada"));
     }
 
     public URI save(Pessoa pessoa, UriComponentsBuilder uriBuilder) {
@@ -33,13 +36,14 @@ public class PessoaService {
         return uriBuilder.path("/pessoa/{id}").buildAndExpand(pessoa.getId()).toUri();
     }
 
-    public Optional<Object> update(UUID id, Pessoa pessoaUpdate) {
+    public Object update(UUID id, Pessoa pessoaUpdate) {
         return this.pessoaRepository.findById(id)
                 .map(pes -> {
                     return Optional.ofNullable(
                             this.pessoaRepository.save(
                                     this.retornaPessoaAposUpdate(pessoaUpdate, pes)));
-                });
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada"));
     }
 
     public void delete(UUID id) {

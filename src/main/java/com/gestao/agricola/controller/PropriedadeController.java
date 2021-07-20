@@ -11,10 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -47,8 +45,7 @@ public class PropriedadeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Propriedade> retornarPropriedadeDetalhada(@PathVariable String id) {
-        Propriedade propriedade = this.propriedadeService.findById(UUID.fromString(id))
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
+        Propriedade propriedade = this.propriedadeService.findById(UUID.fromString(id));
 
         return ResponseEntity.ok(propriedade);
     }
@@ -69,8 +66,7 @@ public class PropriedadeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarPropriedade(@PathVariable UUID id, @RequestBody PropriedadeForm propriedadeForm) {
-        this.propriedadeService.update(id, propriedadeForm)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Propriedade não encontrada"));
+        this.propriedadeService.update(id, propriedadeForm);
 
         return ResponseEntity.noContent().build();
     }

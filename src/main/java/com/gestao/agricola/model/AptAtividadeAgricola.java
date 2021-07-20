@@ -38,22 +38,14 @@ public class AptAtividadeAgricola {
     private Talhao talhao;
 
     @Column(name = "data_atividade")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataAtividade;
 
     @Column(name = "hora_inicio")
-    @JsonFormat(pattern = "hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime horaInicio;
 
     @Column(name = "hora_termino")
-    @JsonFormat(pattern = "hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime horaTermino;
-
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
-
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
 }

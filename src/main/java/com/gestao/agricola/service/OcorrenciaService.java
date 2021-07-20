@@ -1,6 +1,5 @@
 package com.gestao.agricola.service;
 
-import com.gestao.agricola.model.Hibrido;
 import com.gestao.agricola.model.Ocorrencia;
 import com.gestao.agricola.model.Safra;
 import com.gestao.agricola.model.Talhao;
@@ -67,12 +66,6 @@ public class OcorrenciaService {
                 ocorrenciaAtualizada.getSafra().getId().compareTo(ocorrencia.getSafra().getId()) != 0) {
             Safra safra = this.safraService.findById(ocorrenciaAtualizada.getSafra().getId());
             ocorrencia.setSafra(safra);
-        }
-
-        if(!ocorrenciaAtualizada.getHibrido().getId().toString().isEmpty() && ocorrenciaAtualizada.getHibrido().getId().toString() != null &&
-                ocorrenciaAtualizada.getHibrido().getId().compareTo(ocorrencia.getHibrido().getId()) != 0) {
-            Hibrido hibrido = this.hibridoService.findById(ocorrenciaAtualizada.getHibrido().getId());
-            ocorrencia.setHibrido(hibrido);
         }
 
         if(!ocorrenciaAtualizada.getTalhao().getId().toString().isEmpty() && ocorrenciaAtualizada.getTalhao().getId().toString() != null &&

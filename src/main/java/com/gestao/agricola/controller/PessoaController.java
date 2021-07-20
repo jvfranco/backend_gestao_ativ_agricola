@@ -8,10 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -35,8 +33,7 @@ public class PessoaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Pessoa> retornarPessoaDetalhada(@PathVariable UUID id) {
-        Pessoa pessoa = this.pessoaService.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada"));
+        Pessoa pessoa = this.pessoaService.findById(id);
 
         return ResponseEntity.ok(pessoa);
     }
@@ -53,7 +50,6 @@ public class PessoaController {
         return ResponseEntity.ok(pessoas);
     }
 
-    //TODO criptografar senha
     @PostMapping()
     public ResponseEntity<Pessoa> salvarNovaPessoa(@RequestBody @Valid Pessoa pessoa, UriComponentsBuilder uriBuilder) {
         URI uri = this.pessoaService.save(pessoa, uriBuilder);
@@ -63,8 +59,7 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarPessoa(@PathVariable UUID id, @RequestBody Pessoa pessoa) {
-        this.pessoaService.update(id, pessoa)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pessoa não encontrada"));
+        this.pessoaService.update(id, pessoa);
 
         return ResponseEntity.noContent().build();
     }

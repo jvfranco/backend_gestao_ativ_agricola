@@ -9,14 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -41,13 +40,23 @@ public class TalhaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Talhao> retornarTalhaoDetalhado(@PathVariable String id) {
-        Talhao talhao = this.talhaoService.findByIdDTO(UUID.fromString(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
+        Talhao talhao = this.talhaoService.findByIdDTO(UUID.fromString(id));
 
         return ResponseEntity.ok(talhao);
     }
 
-    //TODO criptografar senha
+    @GetMapping()
+    public ResponseEntity<List<Talhao>> retornarTodosTalhoesSemPaginacao() {
+        List<Talhao> talhoes = this.talhaoService.findAll();
+        return ResponseEntity.ok(talhoes);
+    }
+
+    @GetMapping("/propriedade/{id}")
+    public ResponseEntity<List<Talhao>> retornarTodosTalhoesSemPaginacaoPorPropriedade(@PathVariable String id) {
+        List<Talhao> talhoes = this.talhaoService.findByIdPropriedade(id);
+        return ResponseEntity.ok(talhoes);
+    }
+
     @PostMapping()
     public ResponseEntity<Talhao> salvarNovoTalhao(@RequestBody @Valid Talhao talhao, UriComponentsBuilder uriBuilder) {
         URI uri = this.talhaoService.save(talhao, uriBuilder);
@@ -57,8 +66,7 @@ public class TalhaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarTalhao(@PathVariable String id, @RequestBody @Valid Talhao talhao) {
-        this.talhaoService.update(UUID.fromString(id), talhao)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
+        this.talhaoService.update(UUID.fromString(id), talhao);
 
         return ResponseEntity.noContent().build();
     }

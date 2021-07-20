@@ -1,10 +1,9 @@
 package com.gestao.agricola.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -34,15 +33,17 @@ public class AptAtividadeAgricolaDetalhe {
     @JoinColumn(name = "id_insumo")
     private Insumo insumo;
 
+    @Column(name = "qnte_insumo")
+    private BigDecimal quantidadeInsumo;
+
     @ManyToOne
     @JoinColumn(name = "id_hibrido")
     private Hibrido hibrido;
 
-    @Column(name = "data_cadastro")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
+    @Column(name = "qtde_hibrido")
+    private BigDecimal quantidadeHibrido;
 
-    @Column(name = "data_atualizacao")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataAtualizacao;
+    @ManyToOne
+    @JoinColumn(name = "id_pessoa")
+    private Pessoa funcionario;
 }

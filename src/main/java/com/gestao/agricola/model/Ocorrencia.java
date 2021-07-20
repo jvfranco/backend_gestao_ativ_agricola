@@ -32,10 +32,6 @@ public class Ocorrencia {
     private Safra safra;
 
     @ManyToOne
-    @JoinColumn(name = "id_hibrido")
-    private Hibrido hibrido;
-
-    @ManyToOne
     @JoinColumn(name = "id_talhao")
     private Talhao talhao;
 
