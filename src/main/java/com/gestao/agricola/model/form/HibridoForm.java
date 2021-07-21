@@ -23,4 +23,6 @@ public class HibridoForm {
 
     private String observacoes;
 
+    private String idUnidadeDeMedida;
+
 }

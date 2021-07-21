@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +34,12 @@ public class InsumoController {
     public ResponseEntity<Insumo> retornarInsumoDetalhada(@PathVariable String id) {
         Insumo insumo = this.insumoService.findById(UUID.fromString(id));
         return ResponseEntity.ok(insumo);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Insumo>> retornarTodasInsumosSemPaginacao() {
+        List<Insumo> insumos = this.insumoService.findAll();
+        return ResponseEntity.ok(insumos);
     }
 
     @PostMapping()

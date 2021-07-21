@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -123,5 +124,9 @@ public class InsumoService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Insumo> findAll() {
+        return this.insumoRepository.findAll();
     }
 }

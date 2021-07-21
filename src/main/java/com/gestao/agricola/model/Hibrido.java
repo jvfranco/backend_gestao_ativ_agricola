@@ -35,4 +35,8 @@ public class Hibrido {
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
+
+    @OneToOne
+    @JoinColumn(name = "id_unidade_de_medida")
+    private UnidadeDeMedida unidadeDeMedida;
 }

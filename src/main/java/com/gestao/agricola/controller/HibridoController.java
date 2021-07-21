@@ -43,6 +43,12 @@ public class HibridoController {
         return ResponseEntity.ok(culturas);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<Hibrido>> retornarTodosHibridosSemPaginacao() {
+        List<Hibrido> hibridos = this.hibridoService.findAll();
+        return ResponseEntity.ok(hibridos);
+    }
+
     @PostMapping()
     public ResponseEntity<HibridoForm> salvarNovoHibrido(@RequestBody @Valid HibridoForm hibridoForm, UriComponentsBuilder uriBuilder) {
         URI uri = this.hibridoService.save(hibridoForm, uriBuilder);

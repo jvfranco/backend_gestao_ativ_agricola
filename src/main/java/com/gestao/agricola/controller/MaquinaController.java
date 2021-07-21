@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +34,12 @@ public class MaquinaController {
     public ResponseEntity<Maquina> retornarMaquinaDetalhada(@PathVariable String id) {
         Maquina maquina = this.maquinaService.findById(UUID.fromString(id));
         return ResponseEntity.ok(maquina);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Maquina>> retornarTodasMaquinasSemPaginacao() {
+        List<Maquina> maquinas = this.maquinaService.findAll();
+        return ResponseEntity.ok(maquinas);
     }
 
     @PostMapping()

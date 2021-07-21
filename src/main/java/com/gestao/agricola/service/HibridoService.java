@@ -3,6 +3,7 @@ package com.gestao.agricola.service;
 import com.gestao.agricola.model.Cultura;
 import com.gestao.agricola.model.Hibrido;
 import com.gestao.agricola.model.Marca;
+import com.gestao.agricola.model.UnidadeDeMedida;
 import com.gestao.agricola.model.dto.CulturaDTO;
 import com.gestao.agricola.model.form.HibridoForm;
 import com.gestao.agricola.repository.HibridoRepository;
@@ -31,6 +32,9 @@ public class HibridoService {
     @Autowired
     private MarcaService marcaService;
 
+    @Autowired
+    private UnidadeDeMedidaService unidadeDeMedidaService;
+
     public Page<Hibrido> findAll(Pageable paginacao) {
         return this.hibridoRepository.findAll(paginacao);
     }
@@ -49,13 +53,18 @@ public class HibridoService {
     public Hibrido converteFormEmEntity(HibridoForm hibridoForm) {
         Cultura cultura = new Cultura();
         Marca marca = new Marca();
+        UnidadeDeMedida unidade = new UnidadeDeMedida();
 
-        if(Objects.nonNull(hibridoForm.getIdCultura())){
+        if (Objects.nonNull(hibridoForm.getIdCultura())) {
             cultura = this.culturaService.findById(UUID.fromString(hibridoForm.getIdCultura()));
         }
 
-        if(Objects.nonNull(hibridoForm.getIdMarca())){
+        if (Objects.nonNull(hibridoForm.getIdMarca())) {
             marca = this.marcaService.findById(UUID.fromString(hibridoForm.getIdMarca()));
+        }
+
+        if (Objects.nonNull(hibridoForm.getIdUnidadeDeMedida())) {
+            unidade = this.unidadeDeMedidaService.findById(UUID.fromString(hibridoForm.getIdUnidadeDeMedida()));
         }
 
         return Hibrido.builder()
@@ -64,6 +73,7 @@ public class HibridoService {
                 .ciclo(hibridoForm.getCiclo())
                 .observacoes(hibridoForm.getObservacoes())
                 .marca(marca)
+                .unidadeDeMedida(unidade)
                 .build();
     }
 
@@ -73,25 +83,25 @@ public class HibridoService {
     }
 
     private Hibrido retornaHibridoAposAtualizacao(Hibrido hibridoAtualizada, Hibrido hibrido) {
-        if(!hibridoAtualizada.getIdentificacao().isEmpty() && hibridoAtualizada.getIdentificacao() != null) {
+        if (!hibridoAtualizada.getIdentificacao().isEmpty() && hibridoAtualizada.getIdentificacao() != null) {
             hibrido.setIdentificacao(hibridoAtualizada.getIdentificacao());
         }
 
-        if(hibridoAtualizada.getCiclo() != null && hibridoAtualizada.getCiclo() != hibrido.getCiclo()) {
+        if (hibridoAtualizada.getCiclo() != null && hibridoAtualizada.getCiclo() != hibrido.getCiclo()) {
             hibrido.setCiclo(hibridoAtualizada.getCiclo());
         }
 
-        if(hibridoAtualizada.getCultura() != null && hibridoAtualizada.getCultura().getId() != hibrido.getCultura().getId()){
+        if (hibridoAtualizada.getCultura() != null && hibridoAtualizada.getCultura().getId() != hibrido.getCultura().getId()) {
             Cultura cultura = this.culturaService.findById(hibridoAtualizada.getCultura().getId());
             hibrido.setCultura(cultura);
         }
 
-        if(hibridoAtualizada.getMarca() != null && hibridoAtualizada.getMarca().getId() != hibrido.getMarca().getId()){
+        if (hibridoAtualizada.getMarca() != null && hibridoAtualizada.getMarca().getId() != hibrido.getMarca().getId()) {
             Marca marca = this.marcaService.findById(hibridoAtualizada.getMarca().getId());
             hibrido.setMarca(marca);
         }
 
-        if(!hibridoAtualizada.getObservacoes().isEmpty() && hibridoAtualizada.getObservacoes() != null) {
+        if (!hibridoAtualizada.getObservacoes().isEmpty() && hibridoAtualizada.getObservacoes() != null) {
             hibrido.setObservacoes(hibridoAtualizada.getObservacoes());
         }
 
@@ -108,5 +118,9 @@ public class HibridoService {
 
     public List<CulturaDTO> retornarCulturasDTO() {
         return this.culturaService.retornaCulturasDTO();
+    }
+
+    public List<Hibrido> findAll() {
+        return this.hibridoRepository.findAll();
     }
 }

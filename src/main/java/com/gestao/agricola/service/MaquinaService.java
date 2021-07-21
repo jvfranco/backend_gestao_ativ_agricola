@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import static com.gestao.agricola.model.Combustivel.*;
@@ -123,5 +124,9 @@ public class MaquinaService {
         maquina.setPotencia(maquinaForm.getPotencia());
 
         return maquina;
+    }
+
+    public List<Maquina> findAll() {
+        return this.maquinaRepository.findAll();
     }
 }
