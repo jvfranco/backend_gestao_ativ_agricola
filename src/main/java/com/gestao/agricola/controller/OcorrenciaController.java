@@ -1,7 +1,11 @@
 package com.gestao.agricola.controller;
 
 import com.gestao.agricola.model.Ocorrencia;
+import com.gestao.agricola.model.form.OcorrenciaForm;
 import com.gestao.agricola.service.OcorrenciaService;
+import com.gestao.agricola.service.PropriedadeService;
+import com.gestao.agricola.service.SafraService;
+import com.gestao.agricola.service.TalhaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,15 @@ public class OcorrenciaController {
     @Autowired
     private OcorrenciaService ocorrenciaService;
 
+    @Autowired
+    private PropriedadeService propriedadeService;
+
+    @Autowired
+    private TalhaoService talhaoService;
+
+    @Autowired
+    private SafraService safraService;
+
     @GetMapping("/todos")
     public ResponseEntity<Page<Ocorrencia>> retornarTodasOcorrencias(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<Ocorrencia> pageOcorrencias = this.ocorrenciaService.findAll(paginacao);
@@ -35,7 +48,8 @@ public class OcorrenciaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Ocorrencia> salvarNovaOcorrencia(@RequestBody @Valid Ocorrencia ocorrencia, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Ocorrencia> salvarNovaOcorrencia(@RequestBody @Valid OcorrenciaForm ocorrenciaForm, UriComponentsBuilder uriBuilder) {
+        Ocorrencia ocorrencia = ocorrenciaForm.converte(this.propriedadeService, this.talhaoService, this.safraService);
         URI uri = this.ocorrenciaService.save(ocorrencia, uriBuilder);
         return ResponseEntity.created(uri).body(ocorrencia);
     }

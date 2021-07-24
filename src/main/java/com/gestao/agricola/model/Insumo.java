@@ -48,4 +48,11 @@ public class Insumo {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
+    public void atualizarQuantidade(BigDecimal quantidade) {
+        if (quantidade.compareTo(this.quantidade) > 0) {
+            throw new IllegalArgumentException("Valor excede a quantidade em estoque");
+        }
+        this.quantidade = this.quantidade.subtract(quantidade);
+    }
+
 }

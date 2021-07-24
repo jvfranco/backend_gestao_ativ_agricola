@@ -4,6 +4,7 @@ import com.gestao.agricola.model.Ocorrencia;
 import com.gestao.agricola.model.Safra;
 import com.gestao.agricola.model.Talhao;
 import com.gestao.agricola.repository.OcorrenciaRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -50,28 +52,33 @@ public class OcorrenciaService {
     }
 
     private Ocorrencia retornaOcorrenciaAposAtualizacao(Ocorrencia ocorrenciaAtualizada, Ocorrencia ocorrencia) {
-        if(!ocorrenciaAtualizada.getTitulo().isEmpty() && ocorrenciaAtualizada.getTitulo() != null) {
+        if (Objects.nonNull(ocorrenciaAtualizada.getTitulo()) && Strings.isNotEmpty(ocorrenciaAtualizada.getTitulo())) {
             ocorrencia.setTitulo(ocorrenciaAtualizada.getTitulo());
         }
 
-        if(!ocorrenciaAtualizada.getObservacoes().isEmpty() && ocorrenciaAtualizada.getObservacoes() != null) {
-            ocorrencia.setObservacoes(ocorrenciaAtualizada.getObservacoes());
+        if(Objects.nonNull(ocorrenciaAtualizada.getDescricao()) && Strings.isNotEmpty(ocorrenciaAtualizada.getDescricao())) {
+            ocorrencia.setDescricao(ocorrenciaAtualizada.getDescricao());
         }
 
-        if(ocorrenciaAtualizada.getDataOcorrencia() != null && ocorrenciaAtualizada.getDataOcorrencia().compareTo(ocorrencia.getDataOcorrencia()) != 0) {
+        if(Objects.nonNull(ocorrenciaAtualizada.getDataOcorrencia()) && ocorrenciaAtualizada.getDataOcorrencia().compareTo(ocorrencia.getDataOcorrencia()) != 0) {
             ocorrencia.setDataOcorrencia(ocorrenciaAtualizada.getDataOcorrencia());
         }
 
-        if(!ocorrenciaAtualizada.getSafra().getId().toString().isEmpty() && ocorrenciaAtualizada.getSafra().getId().toString() != null &&
+        if(Objects.nonNull(ocorrenciaAtualizada.getSafra()) &&
                 ocorrenciaAtualizada.getSafra().getId().compareTo(ocorrencia.getSafra().getId()) != 0) {
             Safra safra = this.safraService.findById(ocorrenciaAtualizada.getSafra().getId());
             ocorrencia.setSafra(safra);
         }
 
-        if(!ocorrenciaAtualizada.getTalhao().getId().toString().isEmpty() && ocorrenciaAtualizada.getTalhao().getId().toString() != null &&
+        if(Objects.nonNull(ocorrenciaAtualizada.getTalhao()) &&
                 ocorrenciaAtualizada.getTalhao().getId().compareTo(ocorrencia.getTalhao().getId()) != 0) {
             Talhao talhao = this.talhaoService.findById(ocorrenciaAtualizada.getTalhao().getId());
             ocorrencia.setTalhao(talhao);
+        }
+
+        if(Objects.nonNull(ocorrenciaAtualizada.getCoordenadas()) && Strings.isNotEmpty(ocorrenciaAtualizada.getCoordenadas()) &&
+            ocorrencia.getCoordenadas().compareTo(ocorrenciaAtualizada.getCoordenadas()) != 0) {
+            ocorrencia.setCoordenadas(ocorrenciaAtualizada.getCoordenadas());
         }
 
         return ocorrencia;

@@ -3,6 +3,7 @@ package com.gestao.agricola.model.form;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 public class HibridoForm {
@@ -23,6 +24,10 @@ public class HibridoForm {
 
     private String observacoes;
 
+    @NotNull
+    private BigDecimal quantidade;
+
+    @NotNull
     private String idUnidadeDeMedida;
 
 }

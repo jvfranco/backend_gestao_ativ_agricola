@@ -73,6 +73,7 @@ public class HibridoService {
                 .ciclo(hibridoForm.getCiclo())
                 .observacoes(hibridoForm.getObservacoes())
                 .marca(marca)
+                .quantidade(hibridoForm.getQuantidade())
                 .unidadeDeMedida(unidade)
                 .build();
     }
@@ -83,7 +84,7 @@ public class HibridoService {
     }
 
     private Hibrido retornaHibridoAposAtualizacao(Hibrido hibridoAtualizada, Hibrido hibrido) {
-        if (!hibridoAtualizada.getIdentificacao().isEmpty() && hibridoAtualizada.getIdentificacao() != null) {
+        if (hibridoAtualizada.getIdentificacao() != null && !hibridoAtualizada.getIdentificacao().isEmpty()) {
             hibrido.setIdentificacao(hibridoAtualizada.getIdentificacao());
         }
 
@@ -101,8 +102,12 @@ public class HibridoService {
             hibrido.setMarca(marca);
         }
 
-        if (!hibridoAtualizada.getObservacoes().isEmpty() && hibridoAtualizada.getObservacoes() != null) {
+        if (hibridoAtualizada.getObservacoes() != null && !hibridoAtualizada.getObservacoes().isEmpty()) {
             hibrido.setObservacoes(hibridoAtualizada.getObservacoes());
+        }
+
+        if (hibridoAtualizada.getQuantidade().compareTo(hibrido.getQuantidade()) != 0) {
+            hibrido.setQuantidade(hibridoAtualizada.getQuantidade());
         }
 
         return hibrido;

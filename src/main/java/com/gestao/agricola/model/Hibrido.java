@@ -3,6 +3,7 @@ package com.gestao.agricola.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -36,7 +37,17 @@ public class Hibrido {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
+    @Column(nullable = false)
+    private BigDecimal quantidade;
+
     @OneToOne
     @JoinColumn(name = "id_unidade_de_medida")
     private UnidadeDeMedida unidadeDeMedida;
+
+    public void atualizarQuantidade(BigDecimal quantidade) {
+        if (quantidade.compareTo(this.quantidade) > 0) {
+            throw new IllegalArgumentException("Valor excede a quantidade em estoque");
+        }
+        this.quantidade = this.quantidade.subtract(quantidade);
+    }
 }
