@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -90,5 +91,9 @@ public class OcorrenciaService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Ocorrencia> findAll() {
+        return this.ocorrenciaRepository.findAll();
     }
 }

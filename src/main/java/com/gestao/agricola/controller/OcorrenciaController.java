@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,6 +46,12 @@ public class OcorrenciaController {
     public ResponseEntity<Ocorrencia> retornarOcorrenciaDetalhada(@PathVariable String id) {
         Ocorrencia ocorrencia = this.ocorrenciaService.findById(UUID.fromString(id));
         return ResponseEntity.ok(ocorrencia);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Ocorrencia>> retornarOcorrenciasSemPaginacaoo() {
+        List<Ocorrencia> ocorrencias = this.ocorrenciaService.findAll();
+        return ResponseEntity.ok(ocorrencias);
     }
 
     @PostMapping()
