@@ -15,7 +15,7 @@ public class UsuarioDTO {
     public UsuarioDTO (Usuario usuario){
         this.id = usuario.getId().toString();
         this.usuario = usuario.getUsuario();
-        this.perfil = usuario.getPerfil().toString();
+        this.perfil = usuario.getPerfis().get(0).getNome();
         this.pessoa = usuario.getPessoa();
     }
 }

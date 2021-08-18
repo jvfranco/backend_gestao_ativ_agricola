@@ -1,6 +1,5 @@
 package com.gestao.agricola.service;
 
-import com.gestao.agricola.model.Perfil;
 import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
@@ -71,12 +70,8 @@ public class UsuarioService {
             usuario.setUsuario(usuarioForm.getUsuario());
         }
 
-        if(!usuarioForm.getPerfil().isEmpty() && usuarioForm.getPerfil() != null) {
-            if(usuarioForm.getPerfil().equalsIgnoreCase(Perfil.ADMINISTRADOR.toString())) {
-                usuario.setPerfil(Perfil.ADMINISTRADOR);
-            } else {
-                usuario.setPerfil(Perfil.USUARIO);
-            }
+        if(!usuarioForm.getPerfis().isEmpty()) {
+            usuario.setPerfis(usuarioForm.getPerfis());
         }
 
         return usuario;

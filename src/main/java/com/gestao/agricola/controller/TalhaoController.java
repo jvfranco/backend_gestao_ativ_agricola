@@ -32,7 +32,8 @@ public class TalhaoController {
     private UnidadeDeMedidaRepository unidadeDeMedidaRepository;
 
     @GetMapping("/todos")
-    public ResponseEntity<Page<Talhao>> retornarTodosTalhoes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+    public ResponseEntity<Page<Talhao>> retornarTodosTalhoes(
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<Talhao> pageTalhoes = this.talhaoService.findAll(paginacao);
 
         return ResponseEntity.ok(pageTalhoes);
@@ -40,7 +41,7 @@ public class TalhaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Talhao> retornarTalhaoDetalhado(@PathVariable String id) {
-        Talhao talhao = this.talhaoService.findByIdDTO(UUID.fromString(id));
+        Talhao talhao = this.talhaoService.findById(UUID.fromString(id));
 
         return ResponseEntity.ok(talhao);
     }

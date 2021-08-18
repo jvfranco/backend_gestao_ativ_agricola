@@ -4,15 +4,17 @@ import com.gestao.agricola.model.Perfil;
 import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Usuario;
 import lombok.Getter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 public class UsuarioForm {
 
     @NotNull @NotEmpty
-    private String perfil;
+    private List<Perfil> perfis;
 
     @NotNull @NotEmpty
     private String usuario;
@@ -25,9 +27,9 @@ public class UsuarioForm {
 
     public Usuario converter() {
         Usuario usuario = Usuario.builder()
-                .perfil(this.getPerfil().equalsIgnoreCase("administrador") ? Perfil.ADMINISTRADOR : Perfil.USUARIO)
+                .perfis(this.perfis)
                 .usuario(this.usuario)
-                .senha(this.senha)
+                .senha(new BCryptPasswordEncoder().encode(this.senha))
                 .pessoa(this.pessoa)
                 .build();
         return usuario;

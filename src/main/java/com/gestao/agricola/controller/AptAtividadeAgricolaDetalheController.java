@@ -40,6 +40,12 @@ public class AptAtividadeAgricolaDetalheController {
         return ResponseEntity.ok(detalhes);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<AptAtividadeAgricolaDetalhe>> recuperarTodosDetalhesSemPaginacao() {
+        List<AptAtividadeAgricolaDetalhe> detalhes = this.aptAtividadeAgricolaDetalheService.findAllSemPaginacao();
+        return ResponseEntity.ok(detalhes);
+    }
+
     @PostMapping()
     public ResponseEntity<AptAtividadeAgricolaDetalhe> salvarAptAtivAgricolaDetalhe(@RequestBody @Valid AptAtividadeAgricolaDetalheForm detalheFormForm, UriComponentsBuilder uriBuilder) {
         AptAtividadeAgricolaDetalhe detalhe = detalheFormForm.converte(aptAtividadeAgricolaService, maquinaService, insumoService, hibridoService, pessoaService);

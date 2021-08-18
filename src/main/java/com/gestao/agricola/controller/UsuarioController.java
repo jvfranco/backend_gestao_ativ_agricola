@@ -37,7 +37,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDTO);
     }
 
-    //TODO criptografar senha
     @PostMapping()
     public ResponseEntity<UsuarioDTO> salvarNovoUsuario(@RequestBody UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
         Usuario usuario = usuarioForm.converter();

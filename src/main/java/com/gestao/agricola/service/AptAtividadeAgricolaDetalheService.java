@@ -25,4 +25,8 @@ public class AptAtividadeAgricolaDetalheService {
     public List<AptAtividadeAgricolaDetalhe> findAllByApontamento(String idApontamento) {
         return this.aptAtividadeAgricolaDetalheRepository.findAllByApontamento(UUID.fromString(idApontamento));
     }
+
+    public List<AptAtividadeAgricolaDetalhe> findAllSemPaginacao() {
+        return this.aptAtividadeAgricolaDetalheRepository.findAll();
+    }
 }

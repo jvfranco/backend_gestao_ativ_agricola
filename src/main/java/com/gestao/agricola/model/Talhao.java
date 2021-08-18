@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @Entity @Table(name = "talhao")
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor
+@AllArgsConstructor @Builder
 @EqualsAndHashCode @ToString
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Talhao {

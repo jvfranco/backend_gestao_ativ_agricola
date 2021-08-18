@@ -9,9 +9,7 @@ import com.gestao.agricola.repository.UnidadeDeMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
@@ -36,11 +34,6 @@ public class TalhaoService {
         return this.talhaoRepository.findAll(paginacao);
     }
 
-    public Talhao findByIdDTO(UUID id) {
-        return this.talhaoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
-    }
-
     public Talhao findById(UUID id) {
         return this.talhaoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Talhão não encontrado!"));
@@ -57,40 +50,38 @@ public class TalhaoService {
                     Talhao talhaoAtualizado = this.talhaoRepository.save(this.retornaTalhaoAposAtualizacao(talhaoAt, talhao));
                     return talhaoAtualizado;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Talhão não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Talhão não encontrado!"));
     }
 
     public void delete(UUID id) {
-        try {
-            this.talhaoRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        this.talhaoRepository.deleteById(id);
     }
 
     private Talhao retornaTalhaoAposAtualizacao(Talhao talhaoAt, Talhao talhao) {
 
-        if(!talhaoAt.getPropriedade().getId().toString().isEmpty() && talhaoAt.getPropriedade().getId().toString() != null) {
+        if (!talhaoAt.getPropriedade().getId().toString().isEmpty() && talhaoAt.getPropriedade().getId().toString() != null) {
             Propriedade propriedade = this.propriedadeRepository.findById(talhaoAt.getPropriedade().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Propriedade de id: " + talhaoAt.getPropriedade().getId().toString() + " não encontrada!"));
+                    .orElseThrow(() -> new EntityNotFoundException("Propriedade de id: " +
+                            talhaoAt.getPropriedade().getId().toString() + " não encontrada!"));
             talhao.setPropriedade(propriedade);
         }
 
-        if(!talhaoAt.getIdentificacao().isEmpty() && talhaoAt.getIdentificacao() != null) {
+        if (!talhaoAt.getIdentificacao().isEmpty() && talhaoAt.getIdentificacao() != null) {
             talhao.setIdentificacao(talhaoAt.getIdentificacao());
         }
 
-        if(talhaoAt.getArea().compareTo(BigDecimal.ZERO) > 0) {
+        if (talhaoAt.getArea().compareTo(BigDecimal.ZERO) > 0) {
             talhao.setArea(talhaoAt.getArea());
         }
 
-        if(!talhaoAt.getCoordenadas().isEmpty() && talhaoAt.getCoordenadas() != null) {
+        if (!talhaoAt.getCoordenadas().isEmpty() && talhaoAt.getCoordenadas() != null) {
             talhao.setCoordenadas(talhaoAt.getCoordenadas());
         }
 
-        if(!talhaoAt.getUnidadeDeMedida().getId().toString().isEmpty() && talhaoAt.getUnidadeDeMedida().getId().toString() != null) {
+        if (!talhaoAt.getUnidadeDeMedida().getId().toString().isEmpty() && talhaoAt.getUnidadeDeMedida().getId().toString() != null) {
             UnidadeDeMedida unidadeDeMedida = this.unidadeDeMedidaRepository.findById(talhaoAt.getUnidadeDeMedida().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Unidade de medidade de id: " + talhaoAt.getUnidadeDeMedida().getId().toString() + " não encontrada"));
+                    .orElseThrow(() -> new EntityNotFoundException("Unidade de medidade de id: " +
+                            talhaoAt.getUnidadeDeMedida().getId().toString() + " não encontrada"));
             talhao.setUnidadeDeMedida(unidadeDeMedida);
         }
 
