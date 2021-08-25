@@ -1,9 +1,11 @@
 package com.gestao.agricola.service;
 
+import com.gestao.agricola.model.Perfil;
 import com.gestao.agricola.model.Pessoa;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
 import com.gestao.agricola.model.form.UsuarioForm;
+import com.gestao.agricola.repository.PerfilRepository;
 import com.gestao.agricola.repository.PessoaRepository;
 import com.gestao.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UsuarioService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private PerfilRepository perfilRepository;
 
     public Page<UsuarioDTO> findAll(Pageable paginacao) {
         return this.usuarioRepository.findAll(paginacao).map(UsuarioDTO::new);
@@ -70,8 +75,12 @@ public class UsuarioService {
             usuario.setUsuario(usuarioForm.getUsuario());
         }
 
-        if(!usuarioForm.getPerfis().isEmpty()) {
-            usuario.setPerfis(usuarioForm.getPerfis());
+        if(usuarioForm.getPerfil() != null && !usuarioForm.getPerfil().isEmpty()) {
+            Perfil perfil = this.perfilRepository.findByNome(usuarioForm.getPerfil())
+                    .orElseThrow(() -> new IllegalArgumentException("Perfil nao encontrado"));
+            if (!usuario.getPerfis().contains(perfil)) {
+                usuario.getPerfis().add(perfil);
+            }
         }
 
         return usuario;

@@ -1,17 +1,15 @@
 package com.gestao.agricola.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "perfil")
 @Getter
 @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 public class Perfil implements GrantedAuthority {
 
     @Id
@@ -19,6 +17,10 @@ public class Perfil implements GrantedAuthority {
     private Long id;
 
     private String nome;
+
+    public Perfil(String nome) {
+        this.nome = nome;
+    }
 
     @Override
     public String getAuthority() {

@@ -3,6 +3,7 @@ package com.gestao.agricola.controller;
 import com.gestao.agricola.model.Usuario;
 import com.gestao.agricola.model.dto.UsuarioDTO;
 import com.gestao.agricola.model.form.UsuarioForm;
+import com.gestao.agricola.repository.PerfilRepository;
 import com.gestao.agricola.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     @GetMapping("/todos")
     public ResponseEntity<Page<UsuarioDTO>> retornarTodosUsuarios(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao) {
         Page<UsuarioDTO> pageUsuarios = this.usuarioService.findAll(paginacao);
@@ -39,7 +43,7 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<UsuarioDTO> salvarNovoUsuario(@RequestBody UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
-        Usuario usuario = usuarioForm.converter();
+        Usuario usuario = usuarioForm.converter(this.perfilRepository);
         URI uri = this.usuarioService.save(usuario, uriBuilder);
 
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuario));
